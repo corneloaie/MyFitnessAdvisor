@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             "myapp%3A%2F%2Fscreen&" +
             "scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800";
     TextView textView;
-    OAuthToken token;
+    OAuthTokenAndId token;
 
     public static Map<String, String> getQueryMap(String query) {
         String[] params = query.split("&");
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        token = new OAuthToken();
+        token = new OAuthTokenAndId();
         Intent intent = getIntent();
         Uri uri = intent.getData();
         if(uri!=null){
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             Map<String, String> map = getQueryMap(uri.getFragment());
             token.setAccessToken(map.get("access_token"));
             token.setTokenType(map.get("token_type"));
+            token.setUserID(map.get("user_id"));
             VolleyHelper.getInstance().setToken(token.getAccessToken());
             textView.setText(map.get("access_token") + map.get("token_type"));
 
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onError(error);
             }
         };
-        VolleyHelper.getInstance().get("1/user/623B9B/profile.json", callback, getApplicationContext());
+        VolleyHelper.getInstance().get("1/user/" + token.getUserID() + "/profile.json", callback, getApplicationContext());
     }
 
 

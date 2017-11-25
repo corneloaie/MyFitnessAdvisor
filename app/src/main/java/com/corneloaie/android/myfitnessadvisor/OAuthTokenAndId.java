@@ -5,12 +5,11 @@ package com.corneloaie.android.myfitnessadvisor;
  */
 
 
-public class OAuthToken {
+public class OAuthTokenAndId {
 
 
     private String accessToken;
-
-
+    private String userID;
     private String tokenType;
 
     public String getAccessToken() {
@@ -31,5 +30,13 @@ public class OAuthToken {
 
     public String getAuthorization() {
         return getTokenType() + " " + getAccessToken();
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }
