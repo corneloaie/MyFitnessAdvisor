@@ -73,7 +73,8 @@ public class VolleyHelper {
                 callback.onSuccess(response);
             }
         };
-        localRequestQueue.add(new RequestJSONObject(Request.Method.GET, url, null /* JSON object*/, responseListener, errorListener, token));
+        localRequestQueue.add(new RequestJSONObject(Request.Method.GET, url, null /* JSON object*/, responseListener,
+                errorListener, token));
     }
 
     public String getToken() {

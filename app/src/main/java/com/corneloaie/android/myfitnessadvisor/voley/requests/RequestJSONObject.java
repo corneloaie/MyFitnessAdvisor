@@ -1,5 +1,4 @@
 package com.corneloaie.android.myfitnessadvisor.voley.requests;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -13,14 +12,13 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-
-
 public class RequestJSONObject extends JsonObjectRequest {
 
     private String token;
     private JSONObject jsonResponse;
 
-    public RequestJSONObject(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener, String token) {
+    public RequestJSONObject(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener,
+                             Response.ErrorListener errorListener, String token) {
         super(method, url, jsonRequest, listener, errorListener);
         this.token = token;
     }
