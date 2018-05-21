@@ -1,16 +1,27 @@
 package com.corneloaie.android.myfitnessadvisor;
 
+import java.io.Serializable;
+
 /**
  * Created by Cornel-PC on 04/11/2017.
  */
 
 
-public class OAuthTokenAndId {
+public class OAuthTokenAndId implements Serializable {
 
 
     private String accessToken;
     private String userID;
     private String tokenType;
+    private long expireTimeInSeconds;
+
+    public long getExpireTimeInSeconds() {
+        return expireTimeInSeconds;
+    }
+
+    public void setExpireTimeInSeconds(long expireTimeInSeconds) {
+        this.expireTimeInSeconds = expireTimeInSeconds;
+    }
 
     public String getAccessToken() {
         return accessToken;

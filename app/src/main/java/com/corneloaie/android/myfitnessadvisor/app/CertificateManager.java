@@ -1,4 +1,4 @@
-package com.corneloaie.android.myfitnessadvisor;
+package com.corneloaie.android.myfitnessadvisor.app;
 
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
