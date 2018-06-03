@@ -15,6 +15,17 @@ public class OAuthTokenAndId implements Serializable {
     private String tokenType;
     private long expireTimeInSeconds;
 
+    public OAuthTokenAndId() {
+
+    }
+
+    public OAuthTokenAndId(String accessToken, String userID, String tokenType, long expireTimeInSeconds) {
+        this.accessToken = accessToken;
+        this.userID = userID;
+        this.tokenType = tokenType;
+        this.expireTimeInSeconds = expireTimeInSeconds;
+    }
+
     public long getExpireTimeInSeconds() {
         return expireTimeInSeconds;
     }

@@ -41,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_main_container);
+        if (fragment == null) {
+            fragment = new MenuListFragment();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_main_container, fragment)
+                    .commit();
+        }
     }
 
     public void getActivitySummary() {
