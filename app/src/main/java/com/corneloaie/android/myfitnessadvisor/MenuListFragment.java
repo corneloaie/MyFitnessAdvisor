@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.corneloaie.android.myfitnessadvisor.app.MenuListObject;
+
 import java.util.List;
 
 public class MenuListFragment extends Fragment {

@@ -6,14 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.corneloaie.android.myfitnessadvisor.voley.VolleyCallback;
-import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
+import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements MenuListFragment.OnMenuSelectedListener, DatePickerFragment.DatePassingListener {
@@ -28,16 +22,6 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
         setContentView(R.layout.activity_main);
         token = (OAuthTokenAndId) getIntent().getSerializableExtra("token");
 
-//        Button buttonGetData = (Button) findViewById(R.id.button_getData);
-//        textView = (TextView) findViewById(R.id.textView);
-//        textView.setText(Long.toString(token.getExpireTimeInSeconds()));
-
-//        buttonGetData.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getActivitySummary();
-//            }
-//        });
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_main_container);
@@ -49,31 +33,6 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
         }
     }
 
-    public void getActivitySummary() {
-        VolleyCallback callback = new VolleyCallback() {
-            @Override
-            public void onSuccess(JSONObject object) {
-                try {
-                    textView.setText(object.toString());
-                    if (false) {
-                        throw new JSONException("tral");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-                super.onError(error);
-            }
-        };
-        Date date = new Date(System.currentTimeMillis());
-        String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        VolleyHelper.getInstance().get("1/user/" + token.getUserID() +
-                        "/activities/date/" + stringDate + ".json",
-                callback, getApplicationContext());
-    }
 
     @Override
     public void onMenuSelcted(String menu) {
@@ -101,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
 
     @Override
     public void onDatePass(Date date) {
-        Fragment fragment = SummaryFragment.newInstance(date);
+        Fragment fragment = SummaryFragment.newInstance(date, token);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_main_container, fragment)
                 .commit();

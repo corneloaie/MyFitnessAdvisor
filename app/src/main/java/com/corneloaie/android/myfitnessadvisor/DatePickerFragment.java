@@ -2,7 +2,6 @@ package com.corneloaie.android.myfitnessadvisor;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -36,15 +35,12 @@ public class DatePickerFragment extends DialogFragment {
         mDatePicker.setMaxDate(new Date().getTime());
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        int year = mDatePicker.getYear();
-                        int month = mDatePicker.getMonth();
-                        int day = mDatePicker.getDayOfMonth();
-                        Date date = new GregorianCalendar(year, month, day).getTime();
-                        mDatePassingListener.onDatePass(date);
-                    }
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    int year = mDatePicker.getYear();
+                    int month = mDatePicker.getMonth();
+                    int day = mDatePicker.getDayOfMonth();
+                    Date date = new GregorianCalendar(year, month, day).getTime();
+                    mDatePassingListener.onDatePass(date);
                 })
                 .create();
     }
