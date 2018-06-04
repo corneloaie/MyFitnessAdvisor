@@ -16,6 +16,7 @@ public class MenuListObject {
         mMenus.add("Heartrate");
         mMenus.add("Sleep");
         mMenus.add("Profile");
+        mMenus.add("LifeCoach");
     }
 
     public static MenuListObject get(Context context) {

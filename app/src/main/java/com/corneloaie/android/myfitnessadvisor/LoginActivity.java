@@ -59,15 +59,13 @@ public class LoginActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                     CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     customTabsIntent.launchUrl(getApplicationContext(), Uri.parse(URL));
                 }
             });
         }
     }
 
-    private void getData(String token) {
-
-    }
 
     @Override
     protected void onResume() {
