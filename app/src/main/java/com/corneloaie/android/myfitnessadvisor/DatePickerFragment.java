@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -16,14 +17,30 @@ import java.util.GregorianCalendar;
 public class DatePickerFragment extends DialogFragment {
 
 
-    public static final String EXTRA_DATE =
-            "com.corneloaie.android.myfitnessadvisor.date";
+    public static final String ARG_CASE = "userCase";
     private DatePassingListener mDatePassingListener;
+    private String userCase;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mDatePassingListener = (DatePassingListener) context;
+    }
+
+    public static DatePickerFragment newInstance(String userCase) {
+
+        Bundle args = new Bundle();
+        args.putString(ARG_CASE, userCase);
+        DatePickerFragment fragment = new DatePickerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userCase = getArguments().getString(ARG_CASE);
+
     }
 
     @NonNull
@@ -40,13 +57,13 @@ public class DatePickerFragment extends DialogFragment {
                     int month = mDatePicker.getMonth();
                     int day = mDatePicker.getDayOfMonth();
                     Date date = new GregorianCalendar(year, month, day).getTime();
-                    mDatePassingListener.onDatePass(date);
+                    mDatePassingListener.onDatePass(date, userCase);
                 })
                 .create();
     }
 
     public interface DatePassingListener {
-        void onDatePass(Date date);
+        void onDatePass(Date date, String userCase);
     }
 }
 

@@ -37,20 +37,28 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
     @Override
     public void onMenuSelcted(String menu) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment;
+        DatePickerFragment dialog;
         switch (menu) {
             case "Summary":
-                DatePickerFragment dialog = new DatePickerFragment();
+                dialog = DatePickerFragment.newInstance("Summary");
                 dialog.show(fragmentManager, DIALOG_DATE);
             case "Lifetime":
+                fragment = LifetimeFragment.newInstance(token);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_main_container, fragment)
+                        .commit();
                 break;
             case "Heartrate":
                 break;
             case "Sleep":
+                dialog = DatePickerFragment.newInstance("Sleep");
+                dialog.show(fragmentManager, DIALOG_DATE);
                 break;
             case "Profile":
                 break;
             case "LifeCoach":
-                Fragment fragment = new LifeCoachFragment();
+                fragment = new LifeCoachFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragment_main_container, fragment)
                         .commit();
@@ -59,10 +67,21 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
     }
 
     @Override
-    public void onDatePass(Date date) {
-        Fragment fragment = SummaryFragment.newInstance(date, token);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_main_container, fragment)
-                .commit();
+    public void onDatePass(Date date, String userCase) {
+        Fragment fragment;
+        switch (userCase) {
+            case "Summary":
+                fragment = SummaryFragment.newInstance(date, token);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_main_container, fragment)
+                        .commit();
+                break;
+            case "Sleep":
+                fragment = SleepFragment.newInstance(date, token);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_main_container, fragment)
+                        .commit();
+                break;
+        }
     }
 }

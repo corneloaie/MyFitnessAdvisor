@@ -60,12 +60,7 @@ public class MenuListFragment extends Fragment {
         public MenuHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.menu_item, parent, false));
             mMenuTextView = itemView.findViewById(R.id.menu_title_textView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mOnMenuSelectedListener.onMenuSelcted(menuTitle);
-                }
-            });
+            itemView.setOnClickListener(view -> mOnMenuSelectedListener.onMenuSelcted(menuTitle));
         }
 
         public void bind(String menuTitle) {
