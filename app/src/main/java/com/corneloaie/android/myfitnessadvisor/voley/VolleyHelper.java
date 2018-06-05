@@ -6,7 +6,6 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.corneloaie.android.myfitnessadvisor.voley.requests.RequestJSONObject;
 
@@ -59,19 +58,11 @@ public class VolleyHelper {
         RequestQueue localRequestQueue = getRequestQueue();
         String url = apiBaseUrl + "/" + resourceName;
 
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                callback.onError(error);
-            }
-        };
+        Response.ErrorListener errorListener = callback::onError;
 
-        Response.Listener<JSONObject> responseListener = new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.e(TAG, "onResponse = \n " + response.toString());
-                callback.onSuccess(response);
-            }
+        Response.Listener<JSONObject> responseListener = response -> {
+            Log.e(TAG, "onResponse = \n " + response.toString());
+            callback.onSuccess(response);
         };
         localRequestQueue.add(new RequestJSONObject(Request.Method.GET, url, null /* JSON object*/, responseListener,
                 errorListener, token));
