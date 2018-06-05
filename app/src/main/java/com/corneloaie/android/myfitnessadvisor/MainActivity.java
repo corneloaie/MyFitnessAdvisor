@@ -11,10 +11,10 @@ import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements MenuListFragment.OnMenuSelectedListener, DatePickerFragment.DatePassingListener {
-    TextView textView;
-    OAuthTokenAndId token;
     public static final int REQUEST_DATE = 0;
     private static final String DIALOG_DATE = "DialogDate";
+    TextView textView;
+    OAuthTokenAndId token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +50,18 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
                         .commit();
                 break;
             case "Heartrate":
+                dialog = DatePickerFragment.newInstance("Heartrate");
+                dialog.show(fragmentManager, DIALOG_DATE);
                 break;
             case "Sleep":
                 dialog = DatePickerFragment.newInstance("Sleep");
                 dialog.show(fragmentManager, DIALOG_DATE);
                 break;
             case "Profile":
+                fragment = ProfileFragment.newInstance(token);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_main_container, fragment)
+                        .commit();
                 break;
             case "LifeCoach":
                 fragment = new LifeCoachFragment();
@@ -82,6 +88,12 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
                         .replace(R.id.fragment_main_container, fragment)
                         .commit();
                 break;
+            //TODO verify code with avd
+            case "Heartrate":
+                fragment = HeartRateFragment.newInstance(date, token);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_main_container, fragment)
+                        .commit();
         }
     }
 }
