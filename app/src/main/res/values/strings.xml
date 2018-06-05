@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyFitnessAdvisor</string>
+    <string name="date_picker_title">Summary of the day</string>
 </resources>

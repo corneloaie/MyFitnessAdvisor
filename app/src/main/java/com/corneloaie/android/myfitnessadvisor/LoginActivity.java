@@ -1,6 +1,7 @@
 package com.corneloaie.android.myfitnessadvisor;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
 
 import java.util.HashMap;
@@ -35,21 +37,36 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        Button buttonLogin = (Button) findViewById(R.id.button_login);
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                CustomTabsIntent customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(getApplicationContext(), Uri.parse(URL));
-            }
-        });
+        SharedPreferences sp = getSharedPreferences("Token", MODE_PRIVATE);
+        String accessToken = sp.getString("AccessToken", null);
+        String userID = sp.getString("UserID", null);
+        long expireTimeInSeconds = sp.getLong("ExpireTimeInSeconds", 0);
+        String tokenType = sp.getString("TokenType", null);
+        long savedTimeMillis = sp.getLong("CurrentTimeMilis", 0);
+
+
+        if ((System.currentTimeMillis() - savedTimeMillis) < expireTimeInSeconds && accessToken != null) {
+            token = new OAuthTokenAndId(accessToken, userID, tokenType, expireTimeInSeconds);
+            VolleyHelper.getInstance().setToken(token.getAccessToken());
+            Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+            intent1.putExtra("token", token);
+            startActivity(intent1);
+        } else {
+
+            setContentView(R.layout.activity_login);
+            Button buttonLogin = (Button) findViewById(R.id.button_login);
+            buttonLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    customTabsIntent.launchUrl(getApplicationContext(), Uri.parse(URL));
+                }
+            });
+        }
     }
 
-    private void getData(String token) {
-
-    }
 
     @Override
     protected void onResume() {
@@ -65,6 +82,14 @@ public class LoginActivity extends AppCompatActivity {
             token.setTokenType(map.get("token_type"));
             token.setUserID(map.get("user_id"));
             token.setExpireTimeInSeconds(Long.parseLong(map.get("expires_in")));
+            SharedPreferences sp = getSharedPreferences("Token", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("AccessToken", token.getAccessToken());
+            editor.putString("UserID", token.getUserID());
+            editor.putLong("ExpireTimeInSeconds", token.getExpireTimeInSeconds());
+            editor.putLong("CurrentTimeMilis", System.currentTimeMillis());
+            editor.putString("TokenType", token.getTokenType());
+            editor.apply();
             VolleyHelper.getInstance().setToken(token.getAccessToken());
             Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
             intent1.putExtra("token", token);
