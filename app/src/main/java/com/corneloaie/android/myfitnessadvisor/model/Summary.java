@@ -2,6 +2,11 @@ package com.corneloaie.android.myfitnessadvisor.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+
+import com.corneloaie.android.myfitnessadvisor.database.DateConverter;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
@@ -16,6 +21,8 @@ public class Summary {
     private int steps;
 
     @PrimaryKey
+    @NotNull
+    @TypeConverters({DateConverter.class})
     private Date summaryDate;
 
     public Summary(int activityCalories, int caloriesBMR, int caloriesOut, int floors, int restingHeartRate, int steps, Date summaryDate) {
@@ -82,5 +89,18 @@ public class Summary {
 
     public void setSummaryDate(Date summaryDate) {
         this.summaryDate = summaryDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Summary{" +
+                "activityCalories=" + activityCalories +
+                ", caloriesBMR=" + caloriesBMR +
+                ", caloriesOut=" + caloriesOut +
+                ", floors=" + floors +
+                ", restingHeartRate=" + restingHeartRate +
+                ", steps=" + steps +
+                ", summaryDate=" + summaryDate +
+                '}';
     }
 }

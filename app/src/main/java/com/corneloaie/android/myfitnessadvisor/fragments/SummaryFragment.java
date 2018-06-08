@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.R;
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
+import com.corneloaie.android.myfitnessadvisor.database.AppDatabase;
+import com.corneloaie.android.myfitnessadvisor.model.Summary;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyCallback;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
 
@@ -62,10 +64,16 @@ public class SummaryFragment extends Fragment {
             @Override
             public void onSuccess(JSONObject object) {
                 try {
-                    mTextView.setText(object.toString());
-                    if (false) {
-                        throw new JSONException("tral");
-                    }
+                    JSONObject summaryObj = object.getJSONObject("summary");
+                    Summary summary = new Summary(summaryObj.getInt("activityCalories"),
+                            summaryObj.getInt("caloriesBMR"),
+                            summaryObj.getInt("caloriesOut"),
+                            summaryObj.getInt("floors"),
+                            summaryObj.getInt("restingHeartRate"),
+                            summaryObj.getInt("steps"),
+                            mDate);
+                    AppDatabase.getInstance(getActivity().getApplicationContext()).mSummaryDao().insert(summary);
+                    mTextView.setText(AppDatabase.getInstance(getActivity().getApplicationContext()).mSummaryDao().getSummaryFromDate(mDate).toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

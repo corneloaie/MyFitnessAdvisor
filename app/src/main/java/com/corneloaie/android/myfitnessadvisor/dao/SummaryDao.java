@@ -8,11 +8,13 @@ import android.arch.persistence.room.Query;
 
 import com.corneloaie.android.myfitnessadvisor.model.Summary;
 
+import java.util.Date;
+
 @Dao
 public interface SummaryDao {
 
     @Query("SELECT * FROM summary WHERE summaryDate LIKE :summaryDateSelected")
-    Summary getSummaryFromDate(String summaryDateSelected);
+    Summary getSummaryFromDate(Date summaryDateSelected);
 
     @Insert
     void insert(Summary summary);

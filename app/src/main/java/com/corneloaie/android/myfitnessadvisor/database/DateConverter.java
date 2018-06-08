@@ -22,8 +22,8 @@ public class DateConverter {
     }
 
     @TypeConverter
-    public static Long dateToString(Date date) {
-        return date == null ? null : date.getTime();
+    public static String dateToString(Date date) {
+        return date == null ? null : df.format(date).toString();
     }
 
 }

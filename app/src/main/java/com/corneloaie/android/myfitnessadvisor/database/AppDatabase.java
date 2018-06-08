@@ -14,14 +14,14 @@ import com.corneloaie.android.myfitnessadvisor.model.Summary;
 @Database(entities = {Summary.class}, version = 1)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
-    private static AppDatabase APP_DATABASE;
+    private static AppDatabase APP_DATABASE = null;
 
     public static AppDatabase getInstance(Context context) {
         if (APP_DATABASE == null) {
             synchronized (AppDatabase.class) {
                 if (APP_DATABASE == null) {
                     APP_DATABASE = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, "database-name").build();
+                            AppDatabase.class, "database-name").allowMainThreadQueries().build();
 
                 }
             }
