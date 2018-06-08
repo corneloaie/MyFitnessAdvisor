@@ -1,4 +1,4 @@
-package com.corneloaie.android.myfitnessadvisor;
+package com.corneloaie.android.myfitnessadvisor.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.corneloaie.android.myfitnessadvisor.R;
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyCallback;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;

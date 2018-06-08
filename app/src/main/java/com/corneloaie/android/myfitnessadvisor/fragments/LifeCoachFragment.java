@@ -1,4 +1,4 @@
-package com.corneloaie.android.myfitnessadvisor;
+package com.corneloaie.android.myfitnessadvisor.fragments;
 
 import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.corneloaie.android.myfitnessadvisor.R;
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer;
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView;

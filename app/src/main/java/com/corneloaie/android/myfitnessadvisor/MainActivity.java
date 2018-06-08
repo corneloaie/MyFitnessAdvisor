@@ -7,6 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
+import com.corneloaie.android.myfitnessadvisor.fragments.DatePickerFragment;
+import com.corneloaie.android.myfitnessadvisor.fragments.HeartRateFragment;
+import com.corneloaie.android.myfitnessadvisor.fragments.LifeCoachFragment;
+import com.corneloaie.android.myfitnessadvisor.fragments.LifetimeFragment;
+import com.corneloaie.android.myfitnessadvisor.fragments.MenuListFragment;
+import com.corneloaie.android.myfitnessadvisor.fragments.ProfileFragment;
+import com.corneloaie.android.myfitnessadvisor.fragments.SleepFragment;
+import com.corneloaie.android.myfitnessadvisor.fragments.SummaryFragment;
 
 import java.util.Date;
 

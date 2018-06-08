@@ -1,4 +1,4 @@
-package com.corneloaie.android.myfitnessadvisor;
+package com.corneloaie.android.myfitnessadvisor.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,13 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.corneloaie.android.myfitnessadvisor.R;
 import com.corneloaie.android.myfitnessadvisor.app.MenuListObject;
 
 import java.util.List;
 
 public class MenuListFragment extends Fragment {
-    public static final int REQUEST_DATE = 0;
-    private static final String DIALOG_DATE = "DialogDate";
     private RecyclerView mRecyclerView;
     private MenuAdapter mMenuAdapter;
     private OnMenuSelectedListener mOnMenuSelectedListener;

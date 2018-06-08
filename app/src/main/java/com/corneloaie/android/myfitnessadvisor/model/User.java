@@ -1,4 +1,4 @@
-package com.corneloaie.android.myfitnessadvisor.app;
+package com.corneloaie.android.myfitnessadvisor.model;
 
 import android.media.Image;
 

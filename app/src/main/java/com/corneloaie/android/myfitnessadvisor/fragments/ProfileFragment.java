@@ -1,4 +1,4 @@
-package com.corneloaie.android.myfitnessadvisor;
+package com.corneloaie.android.myfitnessadvisor.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,23 +9,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.corneloaie.android.myfitnessadvisor.R;
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyCallback;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
 
 import org.json.JSONObject;
 
-public class LifetimeFragment extends Fragment {
-
+public class ProfileFragment extends Fragment {
     private static final String ARG_TOKEN = "token";
+    private TextView mTextView4;
     private OAuthTokenAndId token;
-    private TextView mTextView2;
 
-    public static LifetimeFragment newInstance(OAuthTokenAndId token) {
+    public static ProfileFragment newInstance(OAuthTokenAndId token) {
 
         Bundle args = new Bundle();
         args.putSerializable(ARG_TOKEN, token);
-        LifetimeFragment fragment = new LifetimeFragment();
+        ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,18 +39,19 @@ public class LifetimeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_lifetime, container, false);
-        mTextView2 = view.findViewById(R.id.textView2);
-        getLifeTimeStats();
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        mTextView4 = view.findViewById(R.id.textView4);
+        getProfileData();
+
         return view;
     }
 
 
-    public void getLifeTimeStats() {
-        VolleyCallback volleyCallback = new VolleyCallback() {
+    public void getProfileData() {
+        VolleyCallback callback = new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject object) {
-                mTextView2.setText(object.toString());
+                mTextView4.setText(object.toString());
             }
 
             @Override
@@ -58,11 +59,9 @@ public class LifetimeFragment extends Fragment {
                 super.onError(error);
             }
         };
-
         VolleyHelper.getInstance().get("1/user/" + token.getUserID() +
-                        "/activities.json",
-                volleyCallback, getActivity());
-
+                        "/profile.json",
+                callback, getActivity());
     }
 
 

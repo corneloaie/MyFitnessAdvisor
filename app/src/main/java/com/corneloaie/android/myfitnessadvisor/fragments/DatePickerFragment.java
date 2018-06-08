@@ -1,4 +1,4 @@
-package com.corneloaie.android.myfitnessadvisor;
+package com.corneloaie.android.myfitnessadvisor.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
+
+import com.corneloaie.android.myfitnessadvisor.R;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
