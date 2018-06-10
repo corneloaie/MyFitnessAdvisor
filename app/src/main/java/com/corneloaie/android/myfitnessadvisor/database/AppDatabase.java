@@ -16,7 +16,7 @@ import com.corneloaie.android.myfitnessadvisor.dao.LifetimeDao;
 import com.corneloaie.android.myfitnessadvisor.dao.ProfileDao;
 import com.corneloaie.android.myfitnessadvisor.dao.SleepDao;
 import com.corneloaie.android.myfitnessadvisor.dao.SleepDataDao;
-import com.corneloaie.android.myfitnessadvisor.dao.SleepStageDao;
+import com.corneloaie.android.myfitnessadvisor.dao.SleepTypeDao;
 import com.corneloaie.android.myfitnessadvisor.dao.SummaryDao;
 import com.corneloaie.android.myfitnessadvisor.model.ActiveMinutes;
 import com.corneloaie.android.myfitnessadvisor.model.Badge;
@@ -27,13 +27,13 @@ import com.corneloaie.android.myfitnessadvisor.model.Lifetime;
 import com.corneloaie.android.myfitnessadvisor.model.Profile;
 import com.corneloaie.android.myfitnessadvisor.model.Sleep;
 import com.corneloaie.android.myfitnessadvisor.model.SleepData;
-import com.corneloaie.android.myfitnessadvisor.model.SleepStage;
+import com.corneloaie.android.myfitnessadvisor.model.SleepType;
 import com.corneloaie.android.myfitnessadvisor.model.Summary;
 
 
 @Database(entities = {Summary.class, ActiveMinutes.class, Lifetime.class, Profile.class,
         Badge.class, Heartrate.class, Sleep.class, HeartRateZone.class,
-        HeartRateIntraday.class, SleepStage.class, SleepData.class}, version = 1)
+        HeartRateIntraday.class, SleepType.class, SleepData.class}, version = 1)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase APP_DATABASE = null;
@@ -69,7 +69,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract SleepDao mSleepDao();
 
-    public abstract SleepStageDao mSleepStageDao();
+    public abstract SleepTypeDao mSleepTypeDao();
 
     public abstract SleepDataDao mSleepDataDao();
 }

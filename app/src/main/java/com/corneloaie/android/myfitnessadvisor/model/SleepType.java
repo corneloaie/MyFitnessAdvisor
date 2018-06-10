@@ -16,10 +16,10 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         parentColumns = "dateOfSleep",
         childColumns = "sleepDateFK",
         onDelete = CASCADE))
-public class SleepStage {
+public class SleepType {
 
     @PrimaryKey(autoGenerate = true)
-    private int idSleepStage;
+    private int idSleepType;
 
     private long duration;
     private int efficiency;
@@ -29,12 +29,12 @@ public class SleepStage {
     @TypeConverters({DateConverter.class})
     private Date sleepDateFK;
 
-    public int getIdSleepStage() {
-        return idSleepStage;
+    public int getIdSleepType() {
+        return idSleepType;
     }
 
-    public void setIdSleepStage(int idSleepStage) {
-        this.idSleepStage = idSleepStage;
+    public void setIdSleepType(int idSleepType) {
+        this.idSleepType = idSleepType;
     }
 
     public long getDuration() {
@@ -87,8 +87,8 @@ public class SleepStage {
 
     @Override
     public String toString() {
-        return "SleepStage{" +
-                "idSleepStage=" + idSleepStage +
+        return "SleepType{" +
+                "idSleepType=" + idSleepType +
                 ", duration=" + duration +
                 ", efficiency=" + efficiency +
                 ", startTime='" + startTime + '\'' +

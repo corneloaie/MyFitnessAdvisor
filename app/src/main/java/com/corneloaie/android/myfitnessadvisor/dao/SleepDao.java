@@ -7,11 +7,13 @@ import android.arch.persistence.room.Query;
 
 import com.corneloaie.android.myfitnessadvisor.model.Sleep;
 
+import java.util.Date;
+
 @Dao
 public interface SleepDao {
 
     @Query("SELECT * FROM sleep WHERE dateOfSleep LIKE :dateOfSleepSelected")
-    Sleep getSleepBasicStats(int dateOfSleepSelected);
+    Sleep getSleepBasicStats(Date dateOfSleepSelected);
 
     @Insert
     void insert(Sleep sleep);

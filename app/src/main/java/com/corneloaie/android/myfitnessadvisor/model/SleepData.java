@@ -6,16 +6,16 @@ import android.arch.persistence.room.PrimaryKey;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = SleepStage.class,
-        parentColumns = "idSleepStage",
-        childColumns = "idSleepStageFK",
+@Entity(foreignKeys = @ForeignKey(entity = SleepType.class,
+        parentColumns = "idSleepType",
+        childColumns = "idSleepTypeFK",
         onDelete = CASCADE))
 public class SleepData {
 
     String dateTime;
     String level;
     int seconds;
-    int idSleepStageFK;
+    int idSleepTypeFK;
     @PrimaryKey(autoGenerate = true)
     private int idSleepData;
 
@@ -43,12 +43,12 @@ public class SleepData {
         this.seconds = seconds;
     }
 
-    public int getIdSleepStageFK() {
-        return idSleepStageFK;
+    public int getIdSleepTypeFK() {
+        return idSleepTypeFK;
     }
 
-    public void setIdSleepStageFK(int idSleepStageFK) {
-        this.idSleepStageFK = idSleepStageFK;
+    public void setIdSleepTypeFK(int idSleepTypeFK) {
+        this.idSleepTypeFK = idSleepTypeFK;
     }
 
     public int getIdSleepData() {
@@ -65,7 +65,7 @@ public class SleepData {
                 "dateTime='" + dateTime + '\'' +
                 ", level='" + level + '\'' +
                 ", seconds=" + seconds +
-                ", idSleepStageFK=" + idSleepStageFK +
+                ", idSleepTypeFK=" + idSleepTypeFK +
                 ", idSleepData=" + idSleepData +
                 '}';
     }

@@ -14,7 +14,7 @@ import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
 import com.corneloaie.android.myfitnessadvisor.database.AppDatabase;
 import com.corneloaie.android.myfitnessadvisor.model.Sleep;
 import com.corneloaie.android.myfitnessadvisor.model.SleepData;
-import com.corneloaie.android.myfitnessadvisor.model.SleepStage;
+import com.corneloaie.android.myfitnessadvisor.model.SleepType;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyCallback;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
 
@@ -57,7 +57,18 @@ public class SleepFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragemnt_sleep, container, false);
         mTextView3 = view.findViewById(R.id.textView3);
-        getSleepData();
+        Sleep sleep = new Sleep();
+        List<SleepData> sleepDataList = new ArrayList<>();
+        List<SleepType> sleepTypeList = new ArrayList<>();
+        AppDatabase appDatabase = AppDatabase.getInstance(getActivity().getApplicationContext());
+        sleep = appDatabase.mSleepDao().getSleepBasicStats(mDate);
+        if (sleep != null) {
+            sleepTypeList = appDatabase.mSleepTypeDao().getSleepStages(mDate);
+            sleepDataList = appDatabase.mSleepDataDao().getSleepData(1);
+            mTextView3.setText(sleep.toString() + sleepDataList + sleepTypeList);
+        } else {
+            getSleepData();
+        }
 
         return view;
     }
@@ -69,17 +80,17 @@ public class SleepFragment extends Fragment {
             public void onSuccess(JSONObject object) {
                 Sleep sleep = new Sleep();
                 List<SleepData> sleepDataList = new ArrayList<>();
-                List<SleepStage> sleepStageList = new ArrayList<>();
+                List<SleepType> sleepTypeList = new ArrayList<>();
                 AppDatabase appDatabase = AppDatabase.getInstance(getActivity().getApplicationContext());
                 try {
                     JSONArray sleepJSONArray = object.getJSONArray("sleep");
                     JSONObject sleepSummaryJSONObject = object.getJSONObject("summary");
                     sleep = parseSleep(sleep, sleepSummaryJSONObject);
-                    praseSleepStageAndDataList(sleepStageList, sleepDataList, sleepJSONArray);
+                    praseSleepStageAndDataList(sleepTypeList, sleepDataList, sleepJSONArray);
                     appDatabase.mSleepDao().insert(sleep);
-                    appDatabase.mSleepStageDao().insert(sleepStageList);
+                    appDatabase.mSleepTypeDao().insert(sleepTypeList);
                     appDatabase.mSleepDataDao().insert(sleepDataList);
-                    mTextView3.setText(sleep.toString() + sleepStageList + sleepDataList);
+                    mTextView3.setText(sleep.toString() + sleepTypeList + sleepDataList);
 
 
                 } catch (JSONException e) {
@@ -98,20 +109,26 @@ public class SleepFragment extends Fragment {
                 callback, getActivity());
     }
 
-    private void praseSleepStageAndDataList(List<SleepStage> sleepStageList,
+    private void praseSleepStageAndDataList(List<SleepType> sleepTypeList,
                                             List<SleepData> sleepDataList, JSONArray sleepJSONArray) throws JSONException {
         for (int i = 0; i < sleepJSONArray.length(); i++) {
             JSONObject jsonObject = sleepJSONArray.getJSONObject(i);
-            SleepStage sleepStage = new SleepStage();
-            sleepStage.setDuration(jsonObject.getLong("duration"));
-            sleepStage.setSleepDateFK(mDate);
-            sleepStage.setEfficiency(jsonObject.getInt("efficiency"));
-            sleepStage.setStartTime(jsonObject.getString("startTime"));
-            sleepStage.setEndTime(jsonObject.getString("endTime"));
-            sleepStage.setTimeInBed(jsonObject.getInt("timeInBed"));
-            sleepStageList.add(sleepStage);
-            for (int j = 0; j <; j++) {
-
+            SleepType sleepType = new SleepType();
+            sleepType.setDuration(jsonObject.getLong("duration"));
+            sleepType.setSleepDateFK(mDate);
+            sleepType.setEfficiency(jsonObject.getInt("efficiency"));
+            sleepType.setStartTime(jsonObject.getString("startTime"));
+            sleepType.setEndTime(jsonObject.getString("endTime"));
+            sleepType.setTimeInBed(jsonObject.getInt("timeInBed"));
+            sleepTypeList.add(sleepType);
+            JSONArray jsonArray = jsonObject.getJSONObject("levels").getJSONArray("data");
+            for (int j = 0; j < jsonArray.length(); j++) {
+                SleepData sleepData = new SleepData();
+                sleepData.setIdSleepTypeFK(i + 1);
+                sleepData.setDateTime(jsonArray.getJSONObject(j).getString("dateTime"));
+                sleepData.setLevel(jsonArray.getJSONObject(j).getString("level"));
+                sleepData.setSeconds(jsonArray.getJSONObject(j).getInt("seconds"));
+                sleepDataList.add(sleepData);
             }
         }
 

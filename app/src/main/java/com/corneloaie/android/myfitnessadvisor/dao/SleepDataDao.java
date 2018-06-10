@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface SleepDataDao {
 
-    @Query("SELECT * FROM sleepdata WHERE idSleepStageFK LIKE :idSleepStageSelected")
+    @Query("SELECT * FROM sleepdata WHERE idSleepTypeFK LIKE :idSleepStageSelected")
     List<SleepData> getSleepData(int idSleepStageSelected);
 
     @Insert
