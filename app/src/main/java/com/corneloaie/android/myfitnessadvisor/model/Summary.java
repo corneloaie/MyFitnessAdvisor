@@ -3,10 +3,9 @@ package com.corneloaie.android.myfitnessadvisor.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 import com.corneloaie.android.myfitnessadvisor.database.DateConverter;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
@@ -21,7 +20,7 @@ public class Summary {
     private int steps;
 
     @PrimaryKey
-    @NotNull
+    @NonNull
     @TypeConverters({DateConverter.class})
     private Date summaryDate;
 

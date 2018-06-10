@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.R;
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
 import com.corneloaie.android.myfitnessadvisor.database.AppDatabase;
+import com.corneloaie.android.myfitnessadvisor.model.ActiveMinutes;
 import com.corneloaie.android.myfitnessadvisor.model.Summary;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyCallback;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
@@ -52,7 +53,14 @@ public class SummaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
         mTextView = view.findViewById(R.id.textView);
-        getActivitySummary();
+        Summary summary = AppDatabase.getInstance(getActivity().getApplicationContext()).mSummaryDao().getSummaryFromDate(mDate);
+        ActiveMinutes activeMinutes = AppDatabase.getInstance(getActivity().getApplicationContext())
+                .mActiveMinutesDao().getActiveMinutesFromDate(mDate);
+        if (summary != null) {
+            mTextView.setText(summary.toString() + activeMinutes.toString());
+        } else {
+            getActivitySummary();
+        }
 
 
         return view;
@@ -72,8 +80,14 @@ public class SummaryFragment extends Fragment {
                             summaryObj.getInt("restingHeartRate"),
                             summaryObj.getInt("steps"),
                             mDate);
+                    ActiveMinutes activeMinutes = new ActiveMinutes(mDate,
+                            summaryObj.getInt("fairlyActiveMinutes"),
+                            summaryObj.getInt("lightlyActiveMinutes"),
+                            summaryObj.getInt("sedentaryMinutes"),
+                            summaryObj.getInt("veryActiveMinutes"));
                     AppDatabase.getInstance(getActivity().getApplicationContext()).mSummaryDao().insert(summary);
-                    mTextView.setText(AppDatabase.getInstance(getActivity().getApplicationContext()).mSummaryDao().getSummaryFromDate(mDate).toString());
+                    AppDatabase.getInstance(getActivity().getApplicationContext()).mActiveMinutesDao().insert(activeMinutes);
+                    mTextView.setText(summary.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -82,6 +96,7 @@ public class SummaryFragment extends Fragment {
             @Override
             public void onError(VolleyError error) {
                 super.onError(error);
+                //TODO if no internet and data
             }
         };
         String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(mDate);

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
@@ -55,14 +54,11 @@ public class LoginActivity extends AppCompatActivity {
 
             setContentView(R.layout.activity_login);
             Button buttonLogin = (Button) findViewById(R.id.button_login);
-            buttonLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    CustomTabsIntent customTabsIntent = builder.build();
-                    customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    customTabsIntent.launchUrl(getApplicationContext(), Uri.parse(URL));
-                }
+            buttonLogin.setOnClickListener(view -> {
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                customTabsIntent.launchUrl(getApplicationContext(), Uri.parse(URL));
             });
         }
     }

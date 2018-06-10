@@ -11,16 +11,24 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.R;
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
+import com.corneloaie.android.myfitnessadvisor.database.AppDatabase;
+import com.corneloaie.android.myfitnessadvisor.model.Lifetime;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyCallback;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class LifetimeFragment extends Fragment {
 
     private static final String ARG_TOKEN = "token";
     private OAuthTokenAndId token;
     private TextView mTextView2;
+    private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     public static LifetimeFragment newInstance(OAuthTokenAndId token) {
 
@@ -51,12 +59,27 @@ public class LifetimeFragment extends Fragment {
         VolleyCallback volleyCallback = new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject object) {
-                mTextView2.setText(object.toString());
+                Lifetime lifetime = new Lifetime();
+                try {
+                    lifetime = parseLifetimeStats(object, lifetime);
+                    AppDatabase.getInstance(getActivity().getApplicationContext()).mLifetimeDao()
+                            .insert(lifetime);
+                    mTextView2.setText(AppDatabase.getInstance(getActivity().getApplicationContext())
+                            .mLifetimeDao().getLifetimeStats().toString());
+                } catch (JSONException | ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onError(VolleyError error) {
-                super.onError(error);
+                Lifetime lifetime = AppDatabase.getInstance(getActivity().getApplicationContext())
+                        .mLifetimeDao().getLifetimeStats();
+                if (lifetime != null) {
+                    mTextView2.setText(lifetime.toString());
+                } else {
+                    //TODO if no internet and no data
+                }
             }
         };
 
@@ -64,6 +87,24 @@ public class LifetimeFragment extends Fragment {
                         "/activities.json",
                 volleyCallback, getActivity());
 
+    }
+
+    private Lifetime parseLifetimeStats(JSONObject object, Lifetime lifetime) throws JSONException, ParseException {
+        JSONObject bestTotal = object.getJSONObject("best").getJSONObject("total");
+        JSONObject distanceJSON = bestTotal.getJSONObject("distance");
+        JSONObject floorsJSON = bestTotal.getJSONObject("floors");
+        JSONObject stepsJSON = bestTotal.getJSONObject("steps");
+        lifetime.setBestDistance(distanceJSON.getInt("value"));
+        lifetime.setBestDistanceDate(df.parse(distanceJSON.getString("date")));
+        lifetime.setBestFloors(floorsJSON.getInt("value"));
+        lifetime.setBestFloorsDate(df.parse(floorsJSON.getString("date")));
+        lifetime.setBestSteps(stepsJSON.getInt("value"));
+        lifetime.setBestStepsDate(df.parse(stepsJSON.getString("date")));
+        JSONObject lifetimeTotalJSON = object.getJSONObject("lifetime").getJSONObject("total");
+        lifetime.setLifetimeDistance(lifetimeTotalJSON.getInt("distance"));
+        lifetime.setLifetimeFloors(lifetimeTotalJSON.getInt("floors"));
+        lifetime.setLifetimeSteps(lifetimeTotalJSON.getInt("steps"));
+        return lifetime;
     }
 
 

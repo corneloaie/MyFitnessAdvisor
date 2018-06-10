@@ -11,13 +11,21 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.R;
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
+import com.corneloaie.android.myfitnessadvisor.database.AppDatabase;
+import com.corneloaie.android.myfitnessadvisor.model.Sleep;
+import com.corneloaie.android.myfitnessadvisor.model.SleepData;
+import com.corneloaie.android.myfitnessadvisor.model.SleepStage;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyCallback;
 import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class SleepFragment extends Fragment {
     private static final String ARG_TOKEN = "token";
@@ -59,7 +67,24 @@ public class SleepFragment extends Fragment {
         VolleyCallback callback = new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject object) {
-                mTextView3.setText(object.toString());
+                Sleep sleep = new Sleep();
+                List<SleepData> sleepDataList = new ArrayList<>();
+                List<SleepStage> sleepStageList = new ArrayList<>();
+                AppDatabase appDatabase = AppDatabase.getInstance(getActivity().getApplicationContext());
+                try {
+                    JSONArray sleepJSONArray = object.getJSONArray("sleep");
+                    JSONObject sleepSummaryJSONObject = object.getJSONObject("summary");
+                    sleep = parseSleep(sleep, sleepSummaryJSONObject);
+                    praseSleepStageAndDataList(sleepStageList, sleepDataList, sleepJSONArray);
+                    appDatabase.mSleepDao().insert(sleep);
+                    appDatabase.mSleepStageDao().insert(sleepStageList);
+                    appDatabase.mSleepDataDao().insert(sleepDataList);
+                    mTextView3.setText(sleep.toString() + sleepStageList + sleepDataList);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -71,6 +96,36 @@ public class SleepFragment extends Fragment {
         VolleyHelper.getInstance().get("1.2/user/" + token.getUserID() +
                         "/sleep/date/" + stringDate + ".json",
                 callback, getActivity());
+    }
+
+    private void praseSleepStageAndDataList(List<SleepStage> sleepStageList,
+                                            List<SleepData> sleepDataList, JSONArray sleepJSONArray) throws JSONException {
+        for (int i = 0; i < sleepJSONArray.length(); i++) {
+            JSONObject jsonObject = sleepJSONArray.getJSONObject(i);
+            SleepStage sleepStage = new SleepStage();
+            sleepStage.setDuration(jsonObject.getLong("duration"));
+            sleepStage.setSleepDateFK(mDate);
+            sleepStage.setEfficiency(jsonObject.getInt("efficiency"));
+            sleepStage.setStartTime(jsonObject.getString("startTime"));
+            sleepStage.setEndTime(jsonObject.getString("endTime"));
+            sleepStage.setTimeInBed(jsonObject.getInt("timeInBed"));
+            sleepStageList.add(sleepStage);
+            for (int j = 0; j <; j++) {
+
+            }
+        }
+
+    }
+
+    private Sleep parseSleep(Sleep sleep, JSONObject sleepSummaryJSONObject) throws JSONException {
+        sleep.setDateOfSleep(mDate);
+        sleep.setTotalMinutesAsleep(sleepSummaryJSONObject.getInt("totalMinutesAsleep"));
+        sleep.setTotalTimeInBed(sleepSummaryJSONObject.getInt("totalTimeInBed"));
+        sleep.setDeep(sleepSummaryJSONObject.getJSONObject("stages").getInt("deep"));
+        sleep.setLight(sleepSummaryJSONObject.getJSONObject("stages").getInt("light"));
+        sleep.setRem(sleepSummaryJSONObject.getJSONObject("stages").getInt("rem"));
+        sleep.setWake(sleepSummaryJSONObject.getJSONObject("stages").getInt("wake"));
+        return sleep;
     }
 
 }
