@@ -18,7 +18,8 @@ import com.corneloaie.android.myfitnessadvisor.fragments.SummaryFragment;
 
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements MenuListFragment.OnMenuSelectedListener, DatePickerFragment.DatePassingListener {
+public class MainActivity extends AppCompatActivity implements MenuListFragment.OnMenuSelectedListener,
+        DatePickerFragment.DatePassingListener, SummaryFragment.InfoClickedListener {
     public static final int REQUEST_DATE = 0;
     private static final String DIALOG_DATE = "DialogDate";
     TextView textView;
@@ -51,9 +52,11 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
             case "Summary":
                 dialog = DatePickerFragment.newInstance("Summary");
                 dialog.show(fragmentManager, DIALOG_DATE);
+                break;
             case "Lifetime":
                 fragment = LifetimeFragment.newInstance(token);
                 fragmentManager.beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.fragment_main_container, fragment)
                         .commit();
                 break;
@@ -68,12 +71,14 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
             case "Profile":
                 fragment = ProfileFragment.newInstance(token);
                 fragmentManager.beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.fragment_main_container, fragment)
                         .commit();
                 break;
             case "LifeCoach":
                 fragment = new LifeCoachFragment();
                 fragmentManager.beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.fragment_main_container, fragment)
                         .commit();
                 break;
@@ -87,12 +92,14 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
             case "Summary":
                 fragment = SummaryFragment.newInstance(date, token);
                 getSupportFragmentManager().beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.fragment_main_container, fragment)
                         .commit();
                 break;
             case "Sleep":
                 fragment = SleepFragment.newInstance(date, token);
                 getSupportFragmentManager().beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.fragment_main_container, fragment)
                         .commit();
                 break;
@@ -100,8 +107,18 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
             case "Heartrate":
                 fragment = HeartRateFragment.newInstance(date, token);
                 getSupportFragmentManager().beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.fragment_main_container, fragment)
                         .commit();
         }
     }
+
+    @Override
+    public void onClickInfoCallback() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        DatePickerFragment dialog = DatePickerFragment.newInstance("test");
+        dialog.show(fragmentManager, DIALOG_DATE);
+    }
+
+
 }

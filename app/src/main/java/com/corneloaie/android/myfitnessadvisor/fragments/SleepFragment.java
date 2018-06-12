@@ -110,7 +110,8 @@ public class SleepFragment extends Fragment {
     }
 
     private void praseSleepStageAndDataList(List<SleepType> sleepTypeList,
-                                            List<SleepData> sleepDataList, JSONArray sleepJSONArray) throws JSONException {
+                                            List<SleepData> sleepDataList, JSONArray sleepJSONArray)
+            throws JSONException {
         for (int i = 0; i < sleepJSONArray.length(); i++) {
             JSONObject jsonObject = sleepJSONArray.getJSONObject(i);
             SleepType sleepType = new SleepType();

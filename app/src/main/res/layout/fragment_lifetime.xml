@@ -1,19 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-</android.support.constraint.ConstraintLayout>
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/distanceBest_imageView"
+            android:layout_width="58dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stepsBest_imageView"
+            app:srcCompat="@android:drawable/btn_star_big_off"/>
+
+        <TextView
+            android:id="@+id/distanceBest_textView"
+            android:layout_width="252dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="72dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/distanceBest_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/stepsBest_textView"/>
+
+        <ImageView
+            android:id="@+id/stepsBest_imageView"
+            android:layout_width="58dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bestFloors_imageView"
+            app:srcCompat="@android:drawable/btn_star_big_off"/>
+
+        <TextView
+            android:id="@+id/stepsBest_textView"
+            android:layout_width="252dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="72dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/stepsBest_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/bestFloors_textView"/>
+
+        <TextView
+            android:id="@+id/distanceAllTime_textView"
+            android:layout_width="219dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="72dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/distanceAllTime_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/stepsAllTime_textView"/>
+
+        <ImageView
+            android:id="@+id/distanceAllTime_imageView"
+            android:layout_width="58dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stepsAllTime_imageView"
+            app:srcCompat="@android:drawable/btn_star_big_off"/>
+
+        <TextView
+            android:id="@+id/bestFloors_textView"
+            android:layout_width="253dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="56dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/bestFloors_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/best_textView"
+            />
+
+        <ImageView
+            android:id="@+id/bestFloors_imageView"
+            android:layout_width="58dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/best_textView"
+            app:srcCompat="@android:drawable/btn_star_big_off"/>
+
+        <TextView
+            android:id="@+id/stepsAllTime_textView"
+            android:layout_width="219dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="80dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/stepsAllTime_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/floorsDataAllTime_textView"/>
+
+        <ImageView
+            android:id="@+id/stepsAllTime_imageView"
+            android:layout_width="58dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/floorsAllTime_imageView"
+            app:srcCompat="@android:drawable/btn_star_big_off"/>
+
+        <TextView
+            android:id="@+id/floorsDataAllTime_textView"
+            android:layout_width="218dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="116dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/floorsAllTime_imageView"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/floorsAllTime_imageView"
+            android:layout_width="58dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/allTime_textView"
+            app:srcCompat="@android:drawable/btn_star_big_off"/>
+
+        <TextView
+            android:id="@+id/allTime_textView"
+            android:layout_width="121dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/alltime"
+            android:textAlignment="center"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/best_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/personal_best"
+            android:textAlignment="center"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/distanceAllTime_textView"/>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
+
+

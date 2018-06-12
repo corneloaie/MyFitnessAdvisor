@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">MyFitnessAdvisor</string>
     <string name="date_picker_title">Summary of the day</string>
+    <string name="calories">%1$d</string>
+    <string name="restingHR">%1$d</string>
+    <string name="steps">%1$d</string>
+    <string name="floors">%1$d</string>
+    <string name="sedentaryMinutes">%1$d</string>
+    <string name="lightlyActiveMinutes">%1$d</string>
+    <string name="fairlyActiveMinutes">%1$d</string>
+    <string name="veryActiveMinutes">%1$d</string>
+    <string name="alltime">AllTime</string>
+    <string name="personal_best">Personal Best</string>
+    <string name="records">Achivied this record %1$d time on %2$s</string>
+    <string name="resting_heart_rate">Resting Heart Rate</string>
+
 </resources>

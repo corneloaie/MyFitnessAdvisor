@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.R;
@@ -26,9 +26,9 @@ import java.text.SimpleDateFormat;
 public class LifetimeFragment extends Fragment {
 
     private static final String ARG_TOKEN = "token";
-    private OAuthTokenAndId token;
-    private TextView mTextView2;
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    private OAuthTokenAndId token;
+    private ImageView imageView;
 
     public static LifetimeFragment newInstance(OAuthTokenAndId token) {
 
@@ -49,7 +49,7 @@ public class LifetimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lifetime, container, false);
-        mTextView2 = view.findViewById(R.id.textView2);
+        imageView = view.findViewById(R.id.stepsAllTime_imageView);
         getLifeTimeStats();
         return view;
     }
@@ -64,8 +64,7 @@ public class LifetimeFragment extends Fragment {
                     lifetime = parseLifetimeStats(object, lifetime);
                     AppDatabase.getInstance(getActivity().getApplicationContext()).mLifetimeDao()
                             .insert(lifetime);
-                    mTextView2.setText(AppDatabase.getInstance(getActivity().getApplicationContext())
-                            .mLifetimeDao().getLifetimeStats().toString());
+
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
                 }
@@ -76,7 +75,7 @@ public class LifetimeFragment extends Fragment {
                 Lifetime lifetime = AppDatabase.getInstance(getActivity().getApplicationContext())
                         .mLifetimeDao().getLifetimeStats();
                 if (lifetime != null) {
-                    mTextView2.setText(lifetime.toString());
+
                 } else {
                     //TODO if no internet and no data
                 }

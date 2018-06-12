@@ -3,12 +3,16 @@ package com.corneloaie.android.myfitnessadvisor.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.corneloaie.android.myfitnessadvisor.R;
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
 import com.corneloaie.android.myfitnessadvisor.database.AppDatabase;
@@ -32,6 +36,8 @@ public class ProfileFragment extends Fragment {
     private TextView mTextView4;
     private OAuthTokenAndId token;
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    private RecyclerView mRecyclerView;
+    private BadgeAdapter mBadgeAdapter;
 
     public static ProfileFragment newInstance(OAuthTokenAndId token) {
 
@@ -52,13 +58,15 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        mTextView4 = view.findViewById(R.id.textView4);
+        mRecyclerView = view.findViewById(R.id.badge_recycler_view);
         List<Badge> badges = AppDatabase.getInstance(getActivity().getApplicationContext())
                 .mBadgeDao().getAllBadges();
         Profile profile = AppDatabase.getInstance(getActivity().getApplicationContext())
                 .mProfileDao().getProfile();
         if (profile != null) {
-            mTextView4.setText(badges.toString() + profile.toString());
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mBadgeAdapter = new BadgeAdapter(badges);
+            mRecyclerView.setAdapter(mBadgeAdapter);
         } else {
             getProfileData();
         }
@@ -82,7 +90,9 @@ public class ProfileFragment extends Fragment {
                             .mProfileDao().insert(profile);
                     AppDatabase.getInstance(getActivity().getApplicationContext())
                             .mBadgeDao().insert(badges);
-                    mTextView4.setText(badges.toString() + profile.toString());
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    mBadgeAdapter = new BadgeAdapter(badges);
+                    mRecyclerView.setAdapter(mBadgeAdapter);
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
                 }
@@ -127,6 +137,56 @@ public class ProfileFragment extends Fragment {
         profile.setHeight(userJSON.getInt("height"));
         profile.setMemberSince(df.parse(userJSON.getString("memberSince")));
         return profile;
+    }
+
+
+    private class BadgeViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mBadgeRecordsTextView;
+        private TextView mBadgeNameTextView;
+        private ImageView mBadgeLogoImageView;
+
+        public BadgeViewHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.badge_item, parent, false));
+            mBadgeRecordsTextView = itemView.findViewById(R.id.badgeRecords_textView);
+            mBadgeLogoImageView = itemView.findViewById(R.id.badgeLogo_imageView);
+            mBadgeNameTextView = itemView.findViewById(R.id.badgeName_textView);
+        }
+
+        public void bind(Badge badge) {
+            Glide.with(getActivity()).load(badge.getImageBadge())
+                    .into(mBadgeLogoImageView);
+            mBadgeNameTextView.setText(badge.getName());
+            mBadgeRecordsTextView.setText(getString(R.string.records,
+                    badge.getTimesAchieved(), badge.getDateTimeAchivied()));
+        }
+    }
+
+    private class BadgeAdapter extends RecyclerView.Adapter<BadgeViewHolder> {
+
+        private List<Badge> mBadges;
+
+        public BadgeAdapter(List<Badge> badges) {
+            mBadges = badges;
+        }
+
+        @Override
+        public BadgeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new BadgeViewHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder(BadgeViewHolder holder, int position) {
+            Badge badge = mBadges.get(position);
+            holder.bind(badge);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mBadges.size();
+        }
     }
 
 
