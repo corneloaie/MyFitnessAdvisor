@@ -13,5 +13,12 @@
     <string name="personal_best">Personal Best</string>
     <string name="records">Achivied this record %1$d time on %2$s</string>
     <string name="resting_heart_rate">Resting Heart Rate</string>
+    <string name="myhtml">
+<![CDATA[
+<p>This is a <b>bold</b> and <i>italic</i> text</p>
+<p>This is another paragraph of the same string.</p>
+]]>
+</string>
+    <string name="time_in_heart_rate_zones">Time in heart rate zones</string>
 
 </resources>

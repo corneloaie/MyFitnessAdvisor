@@ -14,20 +14,71 @@
                 android:id="@+id/graph"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"/>
+                android:layout_marginStart="8dp"/>
 
-            <TextView
-                android:text="@string/resting_heart_rate"
-                android:id="@+id/textView5"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:id="@+id/restingHR_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/resting_heart_rate"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/hrLogo_imageView"
+                    android:layout_width="22dp"
+                    android:layout_height="23dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/restingHR_textView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/btn_star_big_off"/>
+
+                <TextView
+                    android:id="@+id/hrValue_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="79"
+                    android:textSize="32sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/restingHR_textView"/>
+
+                <TextView
+                    android:id="@+id/hrZonesTitle_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/time_in_heart_rate_zones"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/hrValue_textView"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="40dp"
+                    android:text="bpm"
+                    app:layout_constraintStart_toEndOf="@+id/hrValue_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/restingHR_textView"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"/>
+
         </LinearLayout>
     </ScrollView>
