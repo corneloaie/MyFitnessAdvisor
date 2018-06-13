@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.R;
@@ -30,7 +31,9 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -287,7 +290,6 @@ public class HeartRateFragment extends Fragment {
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.setData(data);
-        chart.setViewPortOffsets(-80f, 0f, 80f, 80f);
 
         // custom description
         Description description = new Description();
@@ -313,9 +315,20 @@ public class HeartRateFragment extends Fragment {
 
         }
         chart.getLegend().setCustom(entries);
+        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                Toast.makeText(getActivity(), "test123", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
         chart.animateY(1000);
         chart.invalidate();
+        chart.setViewPortOffsets(-80f, 0f, 80f, 80f);
 
     }
 
