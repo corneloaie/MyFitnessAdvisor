@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.R;
@@ -28,7 +29,9 @@ public class LifetimeFragment extends Fragment {
     private static final String ARG_TOKEN = "token";
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     private OAuthTokenAndId token;
-    private ImageView imageView;
+    private static DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy");
+    TextView stepsAllTime_textView, distanceAllTime_textView, floorsDataAllTime_textView,
+            stepsBest_textView, bestFloors_textView, distanceBest_textView;
 
     public static LifetimeFragment newInstance(OAuthTokenAndId token) {
 
@@ -49,9 +52,36 @@ public class LifetimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lifetime, container, false);
-        imageView = view.findViewById(R.id.stepsAllTime_imageView);
+        setImageViews(view);
+        bindTextViewsXml(view);
         getLifeTimeStats();
         return view;
+    }
+
+    private void bindTextViewsXml(View view) {
+        stepsAllTime_textView = view.findViewById(R.id.stepsAllTime_textView);
+        distanceAllTime_textView = view.findViewById(R.id.distanceAllTime_textView);
+        floorsDataAllTime_textView = view.findViewById(R.id.floorsDataAllTime_textView);
+        stepsBest_textView = view.findViewById(R.id.stepsBest_textView);
+        bestFloors_textView = view.findViewById(R.id.bestFloors_textView);
+        distanceBest_textView = view.findViewById(R.id.distanceBest_textView);
+
+
+    }
+
+    private void setImageViews(View view) {
+        ImageView stepsAllTime_imageView = view.findViewById(R.id.stepsAllTime_imageView);
+        stepsAllTime_imageView.setImageResource(R.drawable.ic_footsteps_icon);
+        ImageView distanceAllTime_imageView = view.findViewById(R.id.distanceAllTime_imageView);
+        distanceAllTime_imageView.setImageResource(R.drawable.distance_icon);
+        ImageView floorsAllTime_imageView = view.findViewById(R.id.floorsAllTime_imageView);
+        floorsAllTime_imageView.setImageResource(R.drawable.floors);
+        ImageView bestFloors_imageView = view.findViewById(R.id.bestFloors_imageView);
+        bestFloors_imageView.setImageResource(R.drawable.floors);
+        ImageView distanceBest_imageView = view.findViewById(R.id.distanceBest_imageView);
+        distanceBest_imageView.setImageResource(R.drawable.distance_icon);
+        ImageView stepsBest_imageView = view.findViewById(R.id.stepsBest_imageView);
+        stepsBest_imageView.setImageResource(R.drawable.ic_footsteps_icon);
     }
 
 
@@ -64,12 +94,11 @@ public class LifetimeFragment extends Fragment {
                     lifetime = parseLifetimeStats(object, lifetime);
                     AppDatabase.getInstance(getActivity().getApplicationContext()).mLifetimeDao()
                             .insert(lifetime);
-
+                    bindDataToXml(lifetime);
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onError(VolleyError error) {
                 Lifetime lifetime = AppDatabase.getInstance(getActivity().getApplicationContext())
@@ -86,6 +115,18 @@ public class LifetimeFragment extends Fragment {
                         "/activities.json",
                 volleyCallback, getActivity());
 
+    }
+
+    private void bindDataToXml(Lifetime lifetime) {
+        stepsAllTime_textView.setText(getString(R.string.stepsTotal, lifetime.getLifetimeSteps()));
+        floorsDataAllTime_textView.setText(getString(R.string.floorsTotal, lifetime.getLifetimeFloors()));
+        distanceAllTime_textView.setText(getString(R.string.distanceTotal, lifetime.getBestDistance()));
+        bestFloors_textView.setText(getString(R.string.floorsBest, lifetime.getBestFloors(),
+                df2.format(lifetime.getBestFloorsDate())));
+        distanceBest_textView.setText(getString(R.string.distanceBest, lifetime.getBestDistance(),
+                df2.format(lifetime.getBestDistanceDate())));
+        stepsBest_textView.setText(getString(R.string.stepsBest, lifetime.getBestSteps(),
+                df2.format(lifetime.getBestStepsDate())));
     }
 
     private Lifetime parseLifetimeStats(JSONObject object, Lifetime lifetime) throws JSONException, ParseException {

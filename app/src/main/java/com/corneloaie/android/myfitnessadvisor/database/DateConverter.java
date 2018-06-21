@@ -8,9 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateConverter {
-
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
     @TypeConverter
     public static Date fromString(String value) {
         try {
@@ -20,10 +18,8 @@ public class DateConverter {
         }
         return null;
     }
-
     @TypeConverter
     public static String dateToString(Date date) {
         return date == null ? null : df.format(date).toString();
     }
-
 }

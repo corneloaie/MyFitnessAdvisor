@@ -22,11 +22,10 @@
 
         <TextView
             android:id="@+id/distanceBest_textView"
-            android:layout_width="252dp"
-            android:layout_height="31dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="72dp"
-            android:text="TextView"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/distanceBest_imageView"
@@ -44,11 +43,10 @@
 
         <TextView
             android:id="@+id/stepsBest_textView"
-            android:layout_width="252dp"
-            android:layout_height="31dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="72dp"
-            android:text="TextView"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/stepsBest_imageView"
@@ -56,11 +54,10 @@
 
         <TextView
             android:id="@+id/distanceAllTime_textView"
-            android:layout_width="219dp"
-            android:layout_height="31dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="72dp"
-            android:text="TextView"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/distanceAllTime_imageView"
@@ -78,11 +75,10 @@
 
         <TextView
             android:id="@+id/bestFloors_textView"
-            android:layout_width="253dp"
-            android:layout_height="31dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="56dp"
-            android:text="TextView"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/bestFloors_imageView"
@@ -101,11 +97,10 @@
 
         <TextView
             android:id="@+id/stepsAllTime_textView"
-            android:layout_width="219dp"
-            android:layout_height="31dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="80dp"
-            android:text="TextView"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/stepsAllTime_imageView"
@@ -123,11 +118,10 @@
 
         <TextView
             android:id="@+id/floorsDataAllTime_textView"
-            android:layout_width="218dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="116dp"
-            android:text="TextView"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/floorsAllTime_imageView"

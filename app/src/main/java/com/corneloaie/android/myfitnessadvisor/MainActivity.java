@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
 import com.corneloaie.android.myfitnessadvisor.app.OAuthTokenAndId;
 import com.corneloaie.android.myfitnessadvisor.fragments.DatePickerFragment;
@@ -19,10 +18,8 @@ import com.corneloaie.android.myfitnessadvisor.fragments.SummaryFragment;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements MenuListFragment.OnMenuSelectedListener,
-        DatePickerFragment.DatePassingListener, SummaryFragment.InfoClickedListener {
-    public static final int REQUEST_DATE = 0;
+        DatePickerFragment.DatePassingListener {
     private static final String DIALOG_DATE = "DialogDate";
-    TextView textView;
     OAuthTokenAndId token;
 
     @Override
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
 
 
     @Override
-    public void onMenuSelcted(String menu) {
+    public void onMenuSelected(String menu) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment;
         DatePickerFragment dialog;
@@ -113,12 +110,12 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
         }
     }
 
-    @Override
-    public void onClickInfoCallback() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        DatePickerFragment dialog = DatePickerFragment.newInstance("test");
-        dialog.show(fragmentManager, DIALOG_DATE);
-    }
+//    @Override
+//    public void onClickInfoCallback() {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        DatePickerFragment dialog = DatePickerFragment.newInstance("test");
+//        dialog.show(fragmentManager, DIALOG_DATE);
+//    }
 
 
 }

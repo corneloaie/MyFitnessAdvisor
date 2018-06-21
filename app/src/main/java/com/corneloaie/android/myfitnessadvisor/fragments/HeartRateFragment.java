@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,10 +55,11 @@ import java.util.TimeZone;
 public class HeartRateFragment extends Fragment {
     private static final String ARG_TOKEN = "token";
     private static final String ARG_DATE = "date";
-    CustomGraphView graphView;
+    private CustomGraphView graphView;
     private Date mDate;
     private OAuthTokenAndId token;
-    private TextView mTextView;
+    private TextView hrValue_textView;
+    private ImageView hrLogo_imageView;
     private HorizontalBarChart chart;
 
 
@@ -82,13 +84,18 @@ public class HeartRateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_heartrate, container, false);
-        graphView = view.findViewById(R.id.graph);
-        chart = view.findViewById(R.id.chart);
+        graphView = view.findViewById(R.id.heart_graph);
+        chart = view.findViewById(R.id.heart_chart);
+        hrValue_textView = view.findViewById(R.id.hrValue_textView);
+        hrLogo_imageView = view.findViewById(R.id.hrLogo_imageView);
+        hrLogo_imageView.setImageResource(R.drawable.ic_heart_rate);
         AppDatabase appDatabase = AppDatabase.getInstance(getActivity().getApplicationContext());
         Heartrate heartrate = appDatabase.mHeartrateDao().getHeartrateStats(mDate);
         List<HeartRateIntraday> heartRateIntradays = appDatabase.mHeartRateIntradayDao().getHeartRateZonesIntraday(mDate);
         List<HeartRateZone> heartRateZones = appDatabase.mHeartRateZoneDao().getHeartRateZones(mDate);
         if (heartrate != null) {
+            if (heartrate.getRestingHeartRate() != 0)
+                hrValue_textView.setText(getString(R.string.restingHR, heartrate.getRestingHeartRate()));
             createGraph(heartRateIntradays);
             createBarGraph(heartRateZones);
         } else {
@@ -97,7 +104,7 @@ public class HeartRateFragment extends Fragment {
         return view;
     }
 
-    synchronized private void createGraph(List<HeartRateIntraday> heartRateIntradays) {
+    private void createGraph(List<HeartRateIntraday> heartRateIntradays) {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(getHeartRatePoints(heartRateIntradays));
         graphView.setTitle("Heart Rate BPM");
         graphView.setTitleTextSize(60);
@@ -111,7 +118,7 @@ public class HeartRateFragment extends Fragment {
                 if (isValueX) {
                     return sdf.format(new Date((long) value));
                 } else {
-                    return super.formatLabel(value, isValueX);
+                    return super.formatLabel((int) value, isValueX);
                 }
             }
         });
@@ -168,6 +175,8 @@ public class HeartRateFragment extends Fragment {
                             .mHeartRateZoneDao().insert(heartRateZones);
                     AppDatabase.getInstance(getActivity().getApplicationContext())
                             .mHeartRateIntradayDao().insert(heartRateIntradays);
+                    if (heartrate.getRestingHeartRate() != 0)
+                        hrValue_textView.setText(getString(R.string.restingHR, heartrate.getRestingHeartRate()));
                     graphView.init();
                     createGraph(heartRateIntradays);
                     createBarGraph(heartRateZones);
@@ -257,7 +266,7 @@ public class HeartRateFragment extends Fragment {
         set1 = new BarDataSet(getDataSet(heartRateZones), "heartRateZones");
         int[] colors = {getResources().getColor(R.color.yellow_500), getResources().getColor(R.color.orange_500),
                 getResources().getColor(R.color.red_500)};
-        set1.setColors(getResources().getColor(R.color.yellow_500), getResources().getColor(R.color.orange_500), getResources().getColor(R.color.red_500));
+        set1.setColors(colors);
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
@@ -266,22 +275,17 @@ public class HeartRateFragment extends Fragment {
         data.setValueFormatter(new MyValueFormatter(heartRateZones));
         // hide Y-axis
         YAxis left = chart.getAxisLeft();
+        left.setAxisMinimum(0);
         left.setDrawLabels(false);
         left.setDrawGridLines(false);
-        left.setEnabled(false);
+        left.setEnabled(true);
         YAxis right = chart.getAxisRight();
-        right.setDrawLabels(true);
+        right.setDrawLabels(false);
         right.setDrawGridLines(false);
         right.setEnabled(true);
 
 
         // custom X-axis labels
-        String[] values = new String[heartRateZones.size() - 1];
-        for (int i = 1; i < heartRateZones.size(); i++) {
-            HeartRateZone hrzone = heartRateZones.get(i);
-            values[i - 1] = hrzone.getMinutes() + "\n" + hrzone.getName();
-        }
-        // String[] values = new String[] { "1 star", "2 stars", "3 stars", "4 stars", "5 stars"};
         XAxis xAxis = chart.getXAxis();
         xAxis.setDrawLabels(false);
         xAxis.setDrawGridLines(false);
@@ -295,17 +299,16 @@ public class HeartRateFragment extends Fragment {
         Description description = new Description();
         description.setText("");
         chart.setDescription(description);
-        chart.getDescription().setTextSize(12);
+        chart.getDescription().setEnabled(false);
         chart.getData().setValueTextSize(14);
 
-        // hide legend
+        // put legend
         chart.getLegend().setEnabled(true);
         chart.getLegend().setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
         chart.getLegend().setDrawInside(true);
         chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         chart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         chart.getLegend().setOrientation(Legend.LegendOrientation.VERTICAL);
-        // chart.getLegend().resetCustom();
         List<LegendEntry> entries = new ArrayList<>();
         for (int i = 1; i < heartRateZones.size(); i++) {
             LegendEntry entry = new LegendEntry();
@@ -315,10 +318,13 @@ public class HeartRateFragment extends Fragment {
 
         }
         chart.getLegend().setCustom(entries);
+        chart.animateY(1000);
+        chart.invalidate();
+        chart.setViewPortOffsets(-0f, 0f, 80f, 80f);
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                Toast.makeText(getActivity(), "test123", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), (int) e.getX() + "", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -326,9 +332,6 @@ public class HeartRateFragment extends Fragment {
 
             }
         });
-        chart.animateY(1000);
-        chart.invalidate();
-        chart.setViewPortOffsets(-80f, 0f, 80f, 80f);
 
     }
 
@@ -340,17 +343,6 @@ public class HeartRateFragment extends Fragment {
             BarEntry barEntry = new BarEntry(i, heartRateZones.get(i).getMinutes());
             valueSet1.add(barEntry);
         }
-//        BarEntry v1e2 = new BarEntry(1, 4341f);
-//        valueSet1.add(v1e2);
-//        BarEntry v1e3 = new BarEntry(2, 3121f);
-//        valueSet1.add(v1e3);
-//        BarEntry v1e4 = new BarEntry(3, 5521f);
-//        valueSet1.add(v1e4);
-//        BarEntry v1e5 = new BarEntry(4, 10421f);
-//        valueSet1.add(v1e5);
-//        BarEntry v1e6 = new BarEntry(5, 27934f);
-//        valueSet1.add(v1e6);
-
         return valueSet1;
     }
 

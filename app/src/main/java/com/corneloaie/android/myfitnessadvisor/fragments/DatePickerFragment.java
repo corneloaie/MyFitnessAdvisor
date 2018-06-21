@@ -49,8 +49,7 @@ public class DatePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null);
-
-        final DatePicker mDatePicker = (DatePicker) view.findViewById(R.id.dialog_date_picker);
+        final DatePicker mDatePicker = view.findViewById(R.id.dialog_date_picker);
         mDatePicker.setMaxDate(new Date().getTime());
         return new AlertDialog.Builder(getActivity())
                 .setView(view)

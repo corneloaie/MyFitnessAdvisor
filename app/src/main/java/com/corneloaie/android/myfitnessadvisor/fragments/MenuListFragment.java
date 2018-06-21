@@ -48,7 +48,7 @@ public class MenuListFragment extends Fragment {
     }
 
     public interface OnMenuSelectedListener {
-        void onMenuSelcted(String menu);
+        void onMenuSelected(String menu);
     }
 
     private class MenuHolder extends RecyclerView.ViewHolder {
@@ -59,7 +59,7 @@ public class MenuListFragment extends Fragment {
         public MenuHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.menu_item, parent, false));
             mMenuTextView = itemView.findViewById(R.id.menu_title_textView);
-            itemView.setOnClickListener(view -> mOnMenuSelectedListener.onMenuSelcted(menuTitle));
+            itemView.setOnClickListener(view -> mOnMenuSelectedListener.onMenuSelected(menuTitle));
         }
 
         public void bind(String menuTitle) {

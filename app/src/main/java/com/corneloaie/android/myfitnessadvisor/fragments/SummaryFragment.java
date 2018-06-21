@@ -32,12 +32,11 @@ import java.util.List;
 public class SummaryFragment extends Fragment {
     private static final String ARG_DATE = "date";
     private static final String ARG_TOKEN = "token";
-    private TextView mTextView;
     private OAuthTokenAndId token;
     private Date mDate;
     private RecyclerView mRecyclerView;
     private SummaryAdapter mSummaryAdapter;
-    private InfoClickedListener mInfoClickedListener;
+
 
     public static SummaryFragment newInstance(Date date, OAuthTokenAndId token) {
 
@@ -52,13 +51,13 @@ public class SummaryFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mInfoClickedListener = (InfoClickedListener) context;
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mInfoClickedListener = null;
+
     }
 
     @Override
@@ -78,7 +77,7 @@ public class SummaryFragment extends Fragment {
 //        TextView summaryTitleTextView = view.findViewById(R.id.summaryTitle_textView);
 //        summaryTitleTextView.setText("Summary");
         ImageView summaryImageView = view.findViewById(R.id.summary_logo_imageView);
-        //TODO set image logo
+        summaryImageView.setImageResource(R.drawable.sun_icon);
 
         mRecyclerView = view.findViewById(R.id.summary_recycler_view);
         Summary summary = AppDatabase.getInstance(getActivity().getApplicationContext()).mSummaryDao().getSummaryFromDate(mDate);
@@ -140,21 +139,21 @@ public class SummaryFragment extends Fragment {
     }
 
 
-    public interface InfoClickedListener {
-        void onClickInfoCallback();
-    }
+
 
     private class SummaryViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mItemTextView;
         private ImageView mInfoImageView;
         private ImageView mImageView;
+        private TextView mItemTypeTextView;
 
         private SummaryViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.data_summary_item, parent, false));
             mInfoImageView = itemView.findViewById(R.id.summaryItemInfo_imageView);
             mItemTextView = itemView.findViewById(R.id.summaryItem_textView);
             mImageView = itemView.findViewById(R.id.summaryItem_imageView);
+            mItemTypeTextView = itemView.findViewById(R.id.menuItemType_textView);
         }
 
         public void bind(String dataSummaryItem, Summary summary, ActiveMinutes activeMinutes) {
@@ -162,56 +161,54 @@ public class SummaryFragment extends Fragment {
                 case "calories":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.calories, summary.getCaloriesOut()));
-//                    mImageView.setImageResource();
-                    mImageView.setClickable(true);
-                    mImageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mInfoClickedListener.onClickInfoCallback();
-                        }
-                    });
+                    mImageView.setImageResource(R.drawable.ic_octicons_flame);
+                    mInfoImageView.setClickable(true);
+                    //   mInfoImageView.setOnClickListener(view -> //TODO create dialog details );
+                    mItemTypeTextView.setText("cals");
                     break;
                 case "restingHR":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.restingHR, summary.getRestingHeartRate()));
-//                    mImageView.setImageResource();
-                    mImageView.setClickable(true);
-                    mImageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mInfoClickedListener.onClickInfoCallback();
-                        }
-                    });
+                    mImageView.setImageResource(R.drawable.ic_heart_rate);
+                    mInfoImageView.setClickable(true);
+                    mItemTypeTextView.setText("bpm");
+
                     break;
                 case "steps":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.steps, summary.getSteps()));
-//                    mImageView.setImageResource();
+                    mImageView.setImageResource(R.drawable.ic_footsteps_icon);
+                    mItemTypeTextView.setText("steps");
                     break;
                 case "floors":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.floors, summary.getFloors()));
-//                    mImageView.setImageResource();
+                    mImageView.setImageResource(R.drawable.floors);
+                    mItemTypeTextView.setText("floors");
                     break;
                 case "sedentaryMinutes":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.sedentaryMinutes, activeMinutes.getSedentaryMinutes()));
-//                    mImageView.setImageResource();
+                    mImageView.setImageResource(R.drawable.sedentary_active);
+                    mItemTypeTextView.setText("min");
                     break;
                 case "lightlyActiveMinutes":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.lightlyActiveMinutes, activeMinutes.getLightlyActiveMinutes()));
-//                    mImageView.setImageResource();
+                    mImageView.setImageResource(R.drawable.lightly_active);
+                    mItemTypeTextView.setText("min");
                     break;
                 case "fairlyActiveMinutes":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.fairlyActiveMinutes, activeMinutes.getFairlyActiveMinutes()));
-//                    mImageView.setImageResource();
+                    mImageView.setImageResource(R.drawable.fairly_active);
+                    mItemTypeTextView.setText("min");
                     break;
                 case "veryActiveMinutes":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.veryActiveMinutes, activeMinutes.getVeryActiveMinutes()));
-//                    mImageView.setImageResource();
+                    mImageView.setImageResource(R.drawable.very_active);
+                    mItemTypeTextView.setText("min");
                     break;
             }
         }

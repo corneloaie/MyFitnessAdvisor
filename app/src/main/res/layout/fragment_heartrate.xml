@@ -11,10 +11,9 @@
             android:orientation="vertical">
 
             <com.corneloaie.android.myfitnessadvisor.app.CustomGraphView
-                android:id="@+id/graph"
+                android:id="@+id/heart_graph"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginStart="8dp"/>
+                android:layout_height="250dp"/>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -64,11 +63,10 @@
                     app:layout_constraintTop_toBottomOf="@+id/hrValue_textView"/>
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/bpm_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="36dp"
                     android:text="bpm"
                     app:layout_constraintStart_toEndOf="@+id/hrValue_textView"
                     app:layout_constraintTop_toBottomOf="@+id/restingHR_textView"/>
@@ -76,7 +74,7 @@
             </android.support.constraint.ConstraintLayout>
 
             <com.github.mikephil.charting.charts.HorizontalBarChart
-                android:id="@+id/chart"
+                android:id="@+id/heart_chart"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"/>
 

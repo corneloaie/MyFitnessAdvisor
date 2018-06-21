@@ -43,14 +43,12 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (APP_DATABASE == null) {
                     APP_DATABASE = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, "database-name").allowMainThreadQueries().build();
-
+                            AppDatabase.class, "MyFitnessAdvisor").allowMainThreadQueries().build();
                 }
             }
         }
         return APP_DATABASE;
     }
-
     public abstract SummaryDao mSummaryDao();
 
     public abstract ActiveMinutesDao mActiveMinutesDao();

@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
 
             setContentView(R.layout.activity_login);
-            Button buttonLogin = (Button) findViewById(R.id.button_login);
+            Button buttonLogin = findViewById(R.id.button_login);
             buttonLogin.setOnClickListener(view -> {
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                 CustomTabsIntent customTabsIntent = builder.build();
@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             VolleyHelper.getInstance().setToken(token.getAccessToken());
             Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
             intent1.putExtra("token", token);
+            intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent1);
 
         }

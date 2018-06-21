@@ -5,13 +5,20 @@
     <string name="restingHR">%1$d</string>
     <string name="steps">%1$d</string>
     <string name="floors">%1$d</string>
+    <string name="distance">%1$d</string>
+    <string name="stepsTotal">%1$d steps</string>
+    <string name="floorsTotal">%1$d floors</string>
+    <string name="distanceTotal">%1$d km</string>
+    <string name="stepsBest">%1$d steps in %2$s</string>
+    <string name="floorsBest">%1$d floors in %2$s</string>
+    <string name="distanceBest">%1$d km in %2$s</string>
     <string name="sedentaryMinutes">%1$d</string>
     <string name="lightlyActiveMinutes">%1$d</string>
     <string name="fairlyActiveMinutes">%1$d</string>
     <string name="veryActiveMinutes">%1$d</string>
     <string name="alltime">AllTime</string>
     <string name="personal_best">Personal Best</string>
-    <string name="records">Achivied this record %1$d time on %2$s</string>
+    <string name="records">Achivied this record %1$d time on %2$s \n%3$s</string>
     <string name="resting_heart_rate">Resting Heart Rate</string>
     <string name="myhtml">
 <![CDATA[
@@ -20,5 +27,14 @@
 ]]>
 </string>
     <string name="time_in_heart_rate_zones">Time in heart rate zones</string>
+    <string name="time_asleep">Time Asleep</string>
+    <string name="sleep_stages">Sleep stages</string>
+    <string name="sleep_schedule">Sleep Schedule</string>
+    <string name="wake_up">wake up</string>
+    <string name="member_since">Member since: %1$s</string>
+    <string name="age_profile">Age\n%1$d yrs</string>
+    <string name="height_profile">Height\n%1$d cm</string>
+    <string name="sleepTimeHours">%1$d</string>
+    <string name="sleepTimeMinutes">%1$d</string>
 
 </resources>

@@ -27,14 +27,12 @@ public class RequestJSONObject extends JsonObjectRequest {
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
-
         if (token != null) {
             String authToken = token;
             headers.put("Authorization", "Bearer " + authToken);
         } else {
             throw new AuthFailureError("missing credentials");
         }
-
         return headers;
     }
 

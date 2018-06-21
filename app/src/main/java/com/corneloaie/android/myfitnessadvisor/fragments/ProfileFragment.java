@@ -33,11 +33,14 @@ import java.util.List;
 
 public class ProfileFragment extends Fragment {
     private static final String ARG_TOKEN = "token";
-    private TextView mTextView4;
-    private OAuthTokenAndId token;
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    private static DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy");
+    private OAuthTokenAndId token;
     private RecyclerView mRecyclerView;
     private BadgeAdapter mBadgeAdapter;
+    private ImageView avatarImageView;
+    private TextView displayNameTextView, memberSinceTextView, ageTextView, heightTextView;
+
 
     public static ProfileFragment newInstance(OAuthTokenAndId token) {
 
@@ -58,12 +61,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        mRecyclerView = view.findViewById(R.id.badge_recycler_view);
+        bindXmlToJava(view);
         List<Badge> badges = AppDatabase.getInstance(getActivity().getApplicationContext())
                 .mBadgeDao().getAllBadges();
         Profile profile = AppDatabase.getInstance(getActivity().getApplicationContext())
                 .mProfileDao().getProfile();
         if (profile != null) {
+            bindDataToXml(profile);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             mBadgeAdapter = new BadgeAdapter(badges);
             mRecyclerView.setAdapter(mBadgeAdapter);
@@ -73,6 +77,15 @@ public class ProfileFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void bindXmlToJava(View view) {
+        avatarImageView = view.findViewById(R.id.avatar_imageView);
+        displayNameTextView = view.findViewById(R.id.displayName_textView);
+        memberSinceTextView = view.findViewById(R.id.memberSince_textView);
+        ageTextView = view.findViewById(R.id.age_textView);
+        heightTextView = view.findViewById(R.id.height_textView);
+        mRecyclerView = view.findViewById(R.id.badge_recycler_view);
     }
 
 
@@ -90,6 +103,7 @@ public class ProfileFragment extends Fragment {
                             .mProfileDao().insert(profile);
                     AppDatabase.getInstance(getActivity().getApplicationContext())
                             .mBadgeDao().insert(badges);
+                    bindDataToXml(profile);
                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     mBadgeAdapter = new BadgeAdapter(badges);
                     mRecyclerView.setAdapter(mBadgeAdapter);
@@ -106,6 +120,15 @@ public class ProfileFragment extends Fragment {
         VolleyHelper.getInstance().get("1/user/" + token.getUserID() +
                         "/profile.json",
                 callback, getActivity());
+    }
+
+    private void bindDataToXml(Profile profile) {
+        Glide.with(getActivity()).load(profile.getAvatar())
+                .into(avatarImageView);
+        displayNameTextView.setText(profile.getDisplayName());
+        memberSinceTextView.setText(getString(R.string.member_since, df2.format(profile.getMemberSince())));
+        ageTextView.setText(getString(R.string.age_profile, profile.getAge()));
+        heightTextView.setText(getString(R.string.height_profile, profile.getHeight()));
     }
 
     private List<Badge> parseUserJSONBadges(List<Badge> badges, JSONObject userJSON) throws JSONException, ParseException {
@@ -158,7 +181,8 @@ public class ProfileFragment extends Fragment {
                     .into(mBadgeLogoImageView);
             mBadgeNameTextView.setText(badge.getName());
             mBadgeRecordsTextView.setText(getString(R.string.records,
-                    badge.getTimesAchieved(), badge.getDateTimeAchivied()));
+                    badge.getTimesAchieved(), df2.format(badge.getDateTimeAchivied()),
+                    badge.getMobileDescription()));
         }
     }
 
