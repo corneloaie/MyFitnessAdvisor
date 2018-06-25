@@ -1,6 +1,7 @@
 package com.corneloaie.android.myfitnessadvisor;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(getLayoutResId());
         token = (OAuthTokenAndId) getIntent().getSerializableExtra("token");
 
 
@@ -39,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
         }
     }
 
+    @LayoutRes
+    protected int getLayoutResId() {
+        return R.layout.activity_masterdetail;
+    }
 
     @Override
     public void onMenuSelected(String menu) {
@@ -51,11 +56,19 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
                 dialog.show(fragmentManager, DIALOG_DATE);
                 break;
             case "Lifetime":
-                fragment = LifetimeFragment.newInstance(token);
-                fragmentManager.beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.fragment_main_container, fragment)
-                        .commit();
+                if (findViewById(R.id.detail_fragment_container) == null) {
+                    fragment = LifetimeFragment.newInstance(token);
+                    fragmentManager.beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.fragment_main_container, fragment)
+                            .commit();
+                } else {
+                    fragment = LifetimeFragment.newInstance(token);
+                    fragmentManager.beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.detail_fragment_container, fragment)
+                            .commit();
+                }
                 break;
             case "Heartrate":
                 dialog = DatePickerFragment.newInstance("Heartrate");
@@ -66,18 +79,34 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
                 dialog.show(fragmentManager, DIALOG_DATE);
                 break;
             case "Profile":
-                fragment = ProfileFragment.newInstance(token);
-                fragmentManager.beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.fragment_main_container, fragment)
-                        .commit();
+                if (findViewById(R.id.detail_fragment_container) == null) {
+                    fragment = ProfileFragment.newInstance(token);
+                    fragmentManager.beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.fragment_main_container, fragment)
+                            .commit();
+                } else {
+                    fragment = ProfileFragment.newInstance(token);
+                    fragmentManager.beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.detail_fragment_container, fragment)
+                            .commit();
+                }
                 break;
             case "LifeCoach":
-                fragment = new LifeCoachFragment();
-                fragmentManager.beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.fragment_main_container, fragment)
-                        .commit();
+                if (findViewById(R.id.detail_fragment_container) == null) {
+                    fragment = new LifeCoachFragment();
+                    fragmentManager.beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.fragment_main_container, fragment)
+                            .commit();
+                } else {
+                    fragment = new LifeCoachFragment();
+                    fragmentManager.beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.detail_fragment_container, fragment)
+                            .commit();
+                }
                 break;
         }
     }
@@ -87,26 +116,50 @@ public class MainActivity extends AppCompatActivity implements MenuListFragment.
         Fragment fragment;
         switch (userCase) {
             case "Summary":
-                fragment = SummaryFragment.newInstance(date, token);
-                getSupportFragmentManager().beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.fragment_main_container, fragment)
-                        .commit();
+                if (findViewById(R.id.detail_fragment_container) == null) {
+                    fragment = SummaryFragment.newInstance(date, token);
+                    getSupportFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.fragment_main_container, fragment)
+                            .commit();
+                } else {
+                    fragment = SummaryFragment.newInstance(date, token);
+                    getSupportFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.detail_fragment_container, fragment)
+                            .commit();
+                }
                 break;
             case "Sleep":
-                fragment = SleepFragment.newInstance(date, token);
-                getSupportFragmentManager().beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.fragment_main_container, fragment)
-                        .commit();
+                if (findViewById(R.id.detail_fragment_container) == null) {
+                    fragment = SleepFragment.newInstance(date, token);
+                    getSupportFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.fragment_main_container, fragment)
+                            .commit();
+                } else {
+                    fragment = SleepFragment.newInstance(date, token);
+                    getSupportFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.detail_fragment_container, fragment)
+                            .commit();
+                }
                 break;
-            //TODO verify code with avd
             case "Heartrate":
-                fragment = HeartRateFragment.newInstance(date, token);
-                getSupportFragmentManager().beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.fragment_main_container, fragment)
-                        .commit();
+                if (findViewById(R.id.detail_fragment_container) == null) {
+                    fragment = HeartRateFragment.newInstance(date, token);
+                    getSupportFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.fragment_main_container, fragment)
+                            .commit();
+                } else {
+                    fragment = HeartRateFragment.newInstance(date, token);
+                    getSupportFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.detail_fragment_container, fragment)
+                            .commit();
+                }
+                break;
         }
     }
 

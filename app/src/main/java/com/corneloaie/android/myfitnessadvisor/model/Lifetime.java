@@ -8,10 +8,11 @@ import android.support.annotation.NonNull;
 
 import com.corneloaie.android.myfitnessadvisor.database.DateConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Lifetime {
+public class Lifetime implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull

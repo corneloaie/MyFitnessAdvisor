@@ -3,7 +3,9 @@ package com.corneloaie.android.myfitnessadvisor.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -139,7 +141,17 @@ public class SummaryFragment extends Fragment {
     }
 
 
-
+    private void inflateDialogFragment(String dataSummaryItem, Summary summary, ActiveMinutes activeMinutes) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+//                        ft.addToBackStack(null);
+        // Create and show the dialog.
+        DialogFragment newFragment = SummaryDetailsFragment.newInstance(dataSummaryItem, summary, activeMinutes);
+        newFragment.show(ft, "dialog");
+    }
 
     private class SummaryViewHolder extends RecyclerView.ViewHolder {
 
@@ -163,7 +175,7 @@ public class SummaryFragment extends Fragment {
                     mItemTextView.setText(getString(R.string.calories, summary.getCaloriesOut()));
                     mImageView.setImageResource(R.drawable.ic_octicons_flame);
                     mInfoImageView.setClickable(true);
-                    //   mInfoImageView.setOnClickListener(view -> //TODO create dialog details );
+                    mInfoImageView.setOnClickListener(view -> inflateDialogFragment(dataSummaryItem, summary, activeMinutes));
                     mItemTypeTextView.setText("cals");
                     break;
                 case "restingHR":
@@ -171,6 +183,7 @@ public class SummaryFragment extends Fragment {
                     mItemTextView.setText(getString(R.string.restingHR, summary.getRestingHeartRate()));
                     mImageView.setImageResource(R.drawable.ic_heart_rate);
                     mInfoImageView.setClickable(true);
+                    mInfoImageView.setOnClickListener(view -> inflateDialogFragment(dataSummaryItem, summary, activeMinutes));
                     mItemTypeTextView.setText("bpm");
 
                     break;
@@ -178,36 +191,48 @@ public class SummaryFragment extends Fragment {
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.steps, summary.getSteps()));
                     mImageView.setImageResource(R.drawable.ic_footsteps_icon);
+                    mInfoImageView.setClickable(true);
+                    mInfoImageView.setOnClickListener(view -> inflateDialogFragment(dataSummaryItem, summary, activeMinutes));
                     mItemTypeTextView.setText("steps");
                     break;
                 case "floors":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.floors, summary.getFloors()));
                     mImageView.setImageResource(R.drawable.floors);
+                    mInfoImageView.setClickable(true);
+                    mInfoImageView.setOnClickListener(view -> inflateDialogFragment(dataSummaryItem, summary, activeMinutes));
                     mItemTypeTextView.setText("floors");
                     break;
                 case "sedentaryMinutes":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.sedentaryMinutes, activeMinutes.getSedentaryMinutes()));
                     mImageView.setImageResource(R.drawable.sedentary_active);
+                    mInfoImageView.setClickable(true);
+                    mInfoImageView.setOnClickListener(view -> inflateDialogFragment(dataSummaryItem, summary, activeMinutes));
                     mItemTypeTextView.setText("min");
                     break;
                 case "lightlyActiveMinutes":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.lightlyActiveMinutes, activeMinutes.getLightlyActiveMinutes()));
                     mImageView.setImageResource(R.drawable.lightly_active);
+                    mInfoImageView.setClickable(true);
+                    mInfoImageView.setOnClickListener(view -> inflateDialogFragment(dataSummaryItem, summary, activeMinutes));
                     mItemTypeTextView.setText("min");
                     break;
                 case "fairlyActiveMinutes":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.fairlyActiveMinutes, activeMinutes.getFairlyActiveMinutes()));
                     mImageView.setImageResource(R.drawable.fairly_active);
+                    mInfoImageView.setClickable(true);
+                    mInfoImageView.setOnClickListener(view -> inflateDialogFragment(dataSummaryItem, summary, activeMinutes));
                     mItemTypeTextView.setText("min");
                     break;
                 case "veryActiveMinutes":
                     mInfoImageView.setImageResource(R.drawable.ic_info_outline_black_24dp);
                     mItemTextView.setText(getString(R.string.veryActiveMinutes, activeMinutes.getVeryActiveMinutes()));
                     mImageView.setImageResource(R.drawable.very_active);
+                    mInfoImageView.setClickable(true);
+                    mInfoImageView.setOnClickListener(view -> inflateDialogFragment(dataSummaryItem, summary, activeMinutes));
                     mItemTypeTextView.setText("min");
                     break;
             }

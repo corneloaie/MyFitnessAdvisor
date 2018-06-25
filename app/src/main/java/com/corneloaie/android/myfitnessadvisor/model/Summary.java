@@ -7,10 +7,11 @@ import android.support.annotation.NonNull;
 
 import com.corneloaie.android.myfitnessadvisor.database.DateConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Summary {
+public class Summary implements Serializable {
 
     private int activityCalories;
     private int caloriesBMR;

@@ -2,13 +2,14 @@ package com.corneloaie.android.myfitnessadvisor.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.R;
@@ -94,6 +95,8 @@ public class SleepFragment extends Fragment {
         if (sleep != null) {
             sleepTimeValue_textView2.setText(getString(R.string.sleepTimeHours, sleep.getTotalMinutesAsleep() / 60));
             sleepTimeValue_textView.setText(getString(R.string.sleepTimeMinutes, sleep.getTotalMinutesAsleep() % 60));
+            sleepTimeValue_textView2.setOnClickListener(view1 -> inflateDialogFragment("sleepTime"));
+            sleepTimeValue_textView.setOnClickListener(view1 -> inflateDialogFragment("sleepTime"));
             sleepTypeList = appDatabase.mSleepTypeDao().getSleepStages(mDate);
             if (sleepTypeList.size() == 1) {
                 try {
@@ -315,7 +318,19 @@ public class SleepFragment extends Fragment {
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                Toast.makeText(getActivity(), (int) e.getX() + "", Toast.LENGTH_SHORT).show();
+                switch ((int) e.getX()) {
+                    case 0:
+                        inflateDialogFragment("Deep");
+                        break;
+                    case 1:
+                        inflateDialogFragment("Light");
+                        break;
+                    case 2:
+                        inflateDialogFragment("REM");
+                        break;
+                    case 3:
+                        inflateDialogFragment("Awake");
+                }
             }
 
             @Override
@@ -324,6 +339,18 @@ public class SleepFragment extends Fragment {
             }
         });
 
+    }
+
+    private void inflateDialogFragment(String dataItemType) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+//                        ft.addToBackStack(null);
+        // Create and show the dialog.
+        DialogFragment newFragment = SleepFragmentDetails.newInstance(dataItemType);
+        newFragment.show(ft, "dialog");
     }
 
     @Override

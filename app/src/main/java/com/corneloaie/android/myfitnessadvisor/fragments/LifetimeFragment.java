@@ -2,7 +2,9 @@ package com.corneloaie.android.myfitnessadvisor.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +108,7 @@ public class LifetimeFragment extends Fragment {
                 if (lifetime != null) {
 
                 } else {
-                    //TODO if no internet and no data
+                    //TODO if no internet and no data we're truly sorry we looked everywhere but we couldn't find a thing, try next time with a internet connection.
                 }
             }
         };
@@ -119,14 +121,20 @@ public class LifetimeFragment extends Fragment {
 
     private void bindDataToXml(Lifetime lifetime) {
         stepsAllTime_textView.setText(getString(R.string.stepsTotal, lifetime.getLifetimeSteps()));
+        stepsAllTime_textView.setOnClickListener(view -> inflateDialogFragment("stepsAllTime", lifetime));
         floorsDataAllTime_textView.setText(getString(R.string.floorsTotal, lifetime.getLifetimeFloors()));
-        distanceAllTime_textView.setText(getString(R.string.distanceTotal, lifetime.getBestDistance()));
+        floorsDataAllTime_textView.setOnClickListener(view -> inflateDialogFragment("floorsAllTime", lifetime));
+        distanceAllTime_textView.setText(getString(R.string.distanceTotal, lifetime.getLifetimeDistance()));
+        distanceAllTime_textView.setOnClickListener(view -> inflateDialogFragment("distanceAllTime", lifetime));
         bestFloors_textView.setText(getString(R.string.floorsBest, lifetime.getBestFloors(),
                 df2.format(lifetime.getBestFloorsDate())));
+        bestFloors_textView.setOnClickListener(view -> inflateDialogFragment("floorsBest", lifetime));
         distanceBest_textView.setText(getString(R.string.distanceBest, lifetime.getBestDistance(),
                 df2.format(lifetime.getBestDistanceDate())));
+        distanceBest_textView.setOnClickListener(view -> inflateDialogFragment("distanceBest", lifetime));
         stepsBest_textView.setText(getString(R.string.stepsBest, lifetime.getBestSteps(),
                 df2.format(lifetime.getBestStepsDate())));
+        stepsBest_textView.setOnClickListener(view -> inflateDialogFragment("stepsBest", lifetime));
     }
 
     private Lifetime parseLifetimeStats(JSONObject object, Lifetime lifetime) throws JSONException, ParseException {
@@ -147,5 +155,16 @@ public class LifetimeFragment extends Fragment {
         return lifetime;
     }
 
+    private void inflateDialogFragment(String dataSummaryItem, Lifetime lifetime) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+//                        ft.addToBackStack(null);
+        // Create and show the dialog.
+        DialogFragment newFragment = LifetimeDetailsFragment.newInstance(dataSummaryItem, lifetime);
+        newFragment.show(ft, "dialog");
+    }
 
 }

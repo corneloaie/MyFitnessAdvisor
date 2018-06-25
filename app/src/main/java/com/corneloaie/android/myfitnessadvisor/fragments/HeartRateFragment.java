@@ -2,14 +2,15 @@ package com.corneloaie.android.myfitnessadvisor.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.R;
@@ -73,6 +74,18 @@ public class HeartRateFragment extends Fragment {
         return fragment;
     }
 
+    private void inflateDialogFragment(String dataHRItem, int hrDataValue) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+//                        ft.addToBackStack(null);
+        // Create and show the dialog.
+        DialogFragment newFragment = HrFragmentDetails.newInstance(dataHRItem, hrDataValue);
+        newFragment.show(ft, "dialog");
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +109,9 @@ public class HeartRateFragment extends Fragment {
         if (heartrate != null) {
             if (heartrate.getRestingHeartRate() != 0)
                 hrValue_textView.setText(getString(R.string.restingHR, heartrate.getRestingHeartRate()));
+            hrValue_textView.setOnClickListener(view1 -> {
+                inflateDialogFragment("restingHR", heartrate.getRestingHeartRate());
+            });
             createGraph(heartRateIntradays);
             createBarGraph(heartRateZones);
         } else {
@@ -175,8 +191,11 @@ public class HeartRateFragment extends Fragment {
                             .mHeartRateZoneDao().insert(heartRateZones);
                     AppDatabase.getInstance(getActivity().getApplicationContext())
                             .mHeartRateIntradayDao().insert(heartRateIntradays);
+                    final int value = heartrate.getRestingHeartRate();
                     if (heartrate.getRestingHeartRate() != 0)
                         hrValue_textView.setText(getString(R.string.restingHR, heartrate.getRestingHeartRate()));
+                    hrValue_textView.setOnClickListener(view ->
+                            inflateDialogFragment("restingHR", value));
                     graphView.init();
                     createGraph(heartRateIntradays);
                     createBarGraph(heartRateZones);
@@ -324,7 +343,20 @@ public class HeartRateFragment extends Fragment {
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                Toast.makeText(getActivity(), (int) e.getX() + "", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(getActivity(), (int) e.getX() + "", Toast.LENGTH_SHORT).show();
+                switch ((int) e.getX()) {
+                    case 1:
+                        inflateDialogFragment("fatBurn", 0);
+                        break;
+                    case 2:
+                        inflateDialogFragment("cardio", 1);
+                        break;
+                    case 3:
+                        inflateDialogFragment("peak", 2);
+                        break;
+                }
+
+
             }
 
             @Override

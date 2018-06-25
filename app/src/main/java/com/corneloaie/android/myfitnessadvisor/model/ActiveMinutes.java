@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.corneloaie.android.myfitnessadvisor.database.DateConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
@@ -17,7 +18,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         parentColumns = "summaryDate",
         childColumns = "activeMinutesDate",
         onDelete = CASCADE))
-public class ActiveMinutes {
+public class ActiveMinutes implements Serializable {
 
     @PrimaryKey
     @NonNull

@@ -36,5 +36,75 @@
     <string name="height_profile">Height\n%1$d cm</string>
     <string name="sleepTimeHours">%1$d</string>
     <string name="sleepTimeMinutes">%1$d</string>
+    <string name="tokenExpired">Token has expired</string>
+    <string name="alert">Alert</string>
+    <string name="caloriesDetails">Whoaah, you\'ve burnt %1$d. That\'s amazing! According to our
+    research out of the %1$d, %2$d represents the Basal Metabolic Rate. The physical activity level is %3$d.
+        Your BMR is the number of calories your organs need to function while you perform no activity whatsoever.
+        You can think of it as the amount of energy you\'d burn if you stayed in bed all day. Since your basal metabolic rate is based largely on involuntary functions like breathing and pumping blood, changes in your day-to-day activity don\'t do much to raise or lower this number. However, increasing muscle mass does increase BMR, because muscle is metabolically "hungry" and it takes more energy to maintain more muscle. This means that when you have a lot of muscle mass, you\'ll burn more calories at rest.
+        To build a single pound of muscle per week you should consume an additional 500 calories to your consumed ones per day.
+    </string>
+    <string name="restingHrDetails"> Your current resting heart rate is %1$d. A normal resting heart rate for adults ranges from 60 to 100 beats a minute. Resting heart rate refers to the heart rate measured when you’re awake, calm, comfortable, and have not recently exerted yourself. Fitbit use your heart rate data from when you’re awake and asleep to estimate your resting heart rate.
+        Generally, a lower heart rate at rest implies more efficient heart function and better cardiovascular fitness, so active people often have lower heart rates because their heart muscle is in better condition and doesn’t need to work as hard to maintain a steady beat.
+    </string>
+    <string name="stepsDetailsAbove">Oh, yeah! You\'ve walked this day %1$d steps. With %2$d more steps than the 10,000-step goal. This goal adds up to about 8 kilometers each day for most people, which includes about 30 minutes of daily exercise—satisfying the CDC’s recommendation of at least 150 minutes of moderate exercise per week. Keep it up!!
+</string>
 
+    <string name="stepsDetailsBelow">Oh, no! You\'ve walked this day %1$d steps. Only %2$d steps away from the 10,000-step goal. This goal adds up to about 8 kilometers each day for most people, which includes about 30 minutes of daily exercise—satisfying the CDC’s recommendation of at least 150 minutes of moderate exercise per week. Try to walk more in the future.
+</string>
+
+    <string name="floorsDetails"> You\'ve climbed %1$d floors. Stair climbing is recommended by doctors and health authorities worldwide because high-quality studies show:
+        \nClimbing just eight flights of stairs a day lowers average early mortality risk by 33 percent
+        \nSeven minutes stair climbing a day can halve the risk of heart attack over 10 years
+        \nJust two minutes extra stair climbing a day is enough to stop average middle age weight gain
+        \nStair climbing delivers these benefits by improving our cardiovascular fitness. It\'s officially classed as a vigorous form exercise and burns more calories per minute than jogging.
+        Stair climbing also exercises our bones and muscles, improving strength, bone density and muscle tone.
+    </string>
+
+
+    <string name="sedentaryActiveDetails">Whoah! You coach potato! Just kidding. You have %1$d sedentary active minutes.
+        This time corresponds with a MET lower than 3. MET stands for metabolic equivalent of task and  is a physiological measure expressing the energy cost of physical activities and is defined as the ratio of metabolic rate (and therefore the rate of energy consumption) during a specific physical activity to a reference metabolic rate.
+    Some examples for MET lower than 3 are: sleeping, watching tv, desk work, writing, walking with a speed between 2.7km/h and 4km/h
+    </string>
+
+    <string name="lightlyActiveDetails">You have %1$d lightly active minutes. This time corresponds with a MET lower than 6. MET stands for metabolic equivalent of task and  is a physiological measure expressing the energy cost of physical activities and is defined as the ratio of metabolic rate (and therefore the rate of energy consumption) during a specific physical activity to a reference metabolic rate.
+    Some examples for MET lower than 6 are: bicycling lower than 16km/h, walking at 4.8km/h
+    </string>
+    <string name="fairlyActiveDetails">You have %1$d fairly active minutes. This time corresponds with a MET lower than 10. MET stands for metabolic equivalent of task and  is a physiological measure expressing the energy cost of physical activities and is defined as the ratio of metabolic rate (and therefore the rate of energy consumption) during a specific physical activity to a reference metabolic rate.
+    Some examples for MET lower than 10 are: jogging, rope jumping, pushups, situps
+
+    </string>
+    <string name="veryActiveActiveDetails">You have %1$d very active minutes. This time corresponds with a MET above 10. MET stands for metabolic equivalent of task and  is a physiological measure expressing the energy cost of physical activities and is defined as the ratio of metabolic rate (and therefore the rate of energy consumption) during a specific physical activity to a reference metabolic rate.
+    Some examples for MET above 10 are: skiing, skating, cross-country, ice dancing, water polo
+    </string>
+
+    <string name="stepsAllTimeDetails"> Ohh yeah! You\'ve gone past 1 million steps. You are stepgendary. Keep it up!!
+    </string>
+
+    <string name="floorsAllTimeDetails"> So many floors, you\'ve already past the highest mountain in the Alps, the Mont Blanc. Keep it up so that you reach Mt. Kilimanjaro.
+    </string>
+
+    <string name="distanceAllTimeDetails"> You\'ve almost walked all the way to Warswaw. Don\'t forget to take some photos.</string>
+    <string name="stepsBestDetails"> So many steps for just one day. I mean someone really likes walking.</string>
+    <string name="floorsBestDetails"> You\'ve climbed half of the One World Trade Center from USA all in one day.</string>
+    <string name="distanceBestDetails"> That\'s some impressive distance. That\'s the distance from the Faculty of Electronics, Telecommunications and Information Technology to Water Park Otopeni</string>
+    <string name="fatBurnDetails"> This zone corresponds with a beat per minute range: 99bpm to 138bpm </string>
+    <string name="cardioDetails">This zone corresponds with a beat per minute range: 138bpm to 168bpm</string>
+    <string name="peakDetails">This zone corresponds with a beat per minute range: 168bpm to 220bpm</string>
+    <string name="sleepTimeDetails"> Sleep is a vital indicator of overall health and well-being. We spend up to one-third of our lives asleep, and the overall state of our "sleep health" remains an essential question throughout our lifespan.
+    For your age range the recommended time asleep is between 7-9 hours but 6 or 10 are also fine. To begin a new path towards healthier sleep and a healthier lifestyle, begin by assessing your own individual needs and habits. See how you respond to different amounts of sleep.
+    Pay careful attention to your mood, energy and health after a poor night\'s sleep versus a good one. Ask yourself, "How often do I get a good night's sleep?" Like good diet and exercise, sleep is a critical component to overall health. </string>
+    <string name="awakeDetails">Hey, sometimes we awaken from our sleep but that is not necessarily a bad thing, it\'s normal.</string>
+    <string name="lightDetails">Light sleep is a non-REM stage, and it’s easiest to wake up during this stage.
+        It occurs in stages 1-2.  The first stage of light sleep is a transition phase and only makes up about 3"%" of our total time asleep.
+        In this stage, the eyes move slowly and muscle activity slows. During this stage, many people experience sudden muscle contractions preceded by a sensation of falling. Most light sleep happens in the second stage.
+        The second stage of light sleep consists of over half of our time asleep each night. We dream during this stage, but the dreams are not as intense as they are during REM sleep. Eye movement stops and brain waves become slower with only an occasional burst of rapid brain waves.
+        The body begins to prepare for deep sleep, as the body temperature begins to drop and the heart rates slows. Typically as people age, they spend more time each night in light sleep. There’s no specific amount of time needed in this phase since it’s not as refreshing as deep sleep. However, it is a necessary sleep stage for proper brain functioning.
+    </string>
+
+    <string name="deepDetails"> Psychology Today defines deep sleep as &#8230; a time of nearly complete disengagement from the environment. Deep sleep is also known as delta sleep, slow wave sleep or N3. It is a restorative sleep state where dreams do not occur, and still relatively little is known about it.  What we do know is that deep sleep is the third stage of sleep. During this stage, heart rate and breathing slows and your muscles relax to the point where you barely move. Deep sleep is necessary for your body to repair itself and recharge for the next day. Your organs detoxicate, your kidneys clean your blood, and your body replaces cells, heals wounds, and builds muscle tissues as well.  Most deep sleep happens in the first sleep cycle. If someone is awoken during deep sleep, he or she will usually feel disoriented for sometime after waking up. It can be very difficult to wake a person during deep sleep.
+According to New Health Advisor, adults 18 and older need anywhere from 1.5-1.8 hours of deep sleep per night, which is about 20% of your overall sleep. Some people, however, may find they need more in order to feel fully rested. There’s no such thing as too much deep sleep.
+    </string>
+
+    <string name="remDetails">You generally enter REM sleep about 90 minutes after initially falling asleep, and each REM stage can last up to an hour. An average adult has five to six REM cycles each night. During this final phase of sleep, your brain becomes more active. This is when most dreaming occurs, your eyes quickly move in different directions (hence, the name!), heart rate and blood pressure increase, and breathing becomes fast, irregular, and shallow. REM sleep plays an important role in learning and memory function, since this is when your brain consolidates and processes information from the day before so that it can be stored in your long-term memory.</string>
 </resources>

@@ -28,9 +28,8 @@ public class LifeCoachFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         //TODO update videos IDs
-        String[] videoIds = {"6JYIGclVQdw", "LvetJ9U_tVY",
-                "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY",
-                "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY"};
+        String[] videoIds = {"XBkQ3jH2jUQ", "xZAGmP3cxtg",
+                "Q4yUlJV31Rk", "EByF_9CmMag"};
         RecyclerView.Adapter recyclerViewAdapter = new RecyclerViewAdapter(videoIds, this.getLifecycle());
         recyclerView.setAdapter(recyclerViewAdapter);
 
