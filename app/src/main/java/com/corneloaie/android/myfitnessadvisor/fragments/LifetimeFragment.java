@@ -106,9 +106,9 @@ public class LifetimeFragment extends Fragment {
                 Lifetime lifetime = AppDatabase.getInstance(getActivity().getApplicationContext())
                         .mLifetimeDao().getLifetimeStats();
                 if (lifetime != null) {
-
+                    bindDataToXml(lifetime);
                 } else {
-                    //TODO if no internet and no data we're truly sorry we looked everywhere but we couldn't find a thing, try next time with a internet connection.
+                    showNoDataDialogFragment();
                 }
             }
         };
@@ -167,4 +167,15 @@ public class LifetimeFragment extends Fragment {
         newFragment.show(ft, "dialog");
     }
 
+    private void showNoDataDialogFragment() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+//                        ft.addToBackStack(null);
+        // Create and show the dialog.
+        DialogFragment newFragment = new NoDataDetailsFragment();
+        newFragment.show(ft, "dialog");
+    }
 }

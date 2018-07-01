@@ -142,6 +142,8 @@ public class SleepFragment extends Fragment {
                     appDatabase.mSleepDataDao().insert(sleepDataList);
                     sleepTimeValue_textView2.setText(getString(R.string.sleepTimeHours, sleep.getTotalMinutesAsleep() / 60));
                     sleepTimeValue_textView.setText(getString(R.string.sleepTimeMinutes, sleep.getTotalMinutesAsleep() % 60));
+                    sleepTimeValue_textView2.setOnClickListener(view1 -> inflateDialogFragment("sleepTime"));
+                    sleepTimeValue_textView.setOnClickListener(view1 -> inflateDialogFragment("sleepTime"));
                     if (sleepTypeList.size() == 1) {
                         try {
                             bedTimeValue_textView.setText(sdf.format(timestampformat.parse(sleepTypeList.get(0).getStartTime())));
@@ -167,6 +169,7 @@ public class SleepFragment extends Fragment {
             @Override
             public void onError(VolleyError error) {
                 super.onError(error);
+                showNoDataDialogFragment();
             }
         };
         String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(mDate);
@@ -274,6 +277,7 @@ public class SleepFragment extends Fragment {
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.setData(data);
+        chart.setDoubleTapToZoomEnabled(false);
 
         // custom description
         Description description = new Description();
@@ -339,6 +343,18 @@ public class SleepFragment extends Fragment {
             }
         });
 
+    }
+
+    private void showNoDataDialogFragment() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+//                        ft.addToBackStack(null);
+        // Create and show the dialog.
+        DialogFragment newFragment = new NoDataDetailsFragment();
+        newFragment.show(ft, "dialog");
     }
 
     private void inflateDialogFragment(String dataItemType) {

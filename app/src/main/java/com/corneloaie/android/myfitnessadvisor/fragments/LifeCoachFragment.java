@@ -27,7 +27,6 @@ public class LifeCoachFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        //TODO update videos IDs
         String[] videoIds = {"XBkQ3jH2jUQ", "xZAGmP3cxtg",
                 "Q4yUlJV31Rk", "EByF_9CmMag"};
         RecyclerView.Adapter recyclerViewAdapter = new RecyclerViewAdapter(videoIds, this.getLifecycle());

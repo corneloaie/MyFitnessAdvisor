@@ -36,8 +36,8 @@
     <string name="height_profile">Height\n%1$d cm</string>
     <string name="sleepTimeHours">%1$d</string>
     <string name="sleepTimeMinutes">%1$d</string>
-    <string name="tokenExpired">Token has expired</string>
-    <string name="alert">Alert</string>
+    <string name="tokenExpired">Token has expired, please enter the application to refresh token.</string>
+    <string name="alert">Refresh token</string>
     <string name="caloriesDetails">Whoaah, you\'ve burnt %1$d. That\'s amazing! According to our
     research out of the %1$d, %2$d represents the Basal Metabolic Rate. The physical activity level is %3$d.
         Your BMR is the number of calories your organs need to function while you perform no activity whatsoever.
@@ -107,4 +107,6 @@ According to New Health Advisor, adults 18 and older need anywhere from 1.5-1.8 
     </string>
 
     <string name="remDetails">You generally enter REM sleep about 90 minutes after initially falling asleep, and each REM stage can last up to an hour. An average adult has five to six REM cycles each night. During this final phase of sleep, your brain becomes more active. This is when most dreaming occurs, your eyes quickly move in different directions (hence, the name!), heart rate and blood pressure increase, and breathing becomes fast, irregular, and shallow. REM sleep plays an important role in learning and memory function, since this is when your brain consolidates and processes information from the day before so that it can be stored in your long-term memory.</string>
+    <string name="no_data">No Data :(</string>
+    <string name="no_data_message">We\'re sorry to say this but we verified if the data you wanted was here but there is nothing. Also we tried to contact the Fitbit server to retrieve the data but it appears it was a problem with the connection, please check your internet connection</string>
 </resources>

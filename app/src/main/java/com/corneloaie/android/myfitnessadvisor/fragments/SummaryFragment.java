@@ -131,7 +131,7 @@ public class SummaryFragment extends Fragment {
             @Override
             public void onError(VolleyError error) {
                 super.onError(error);
-                //TODO if no internet and data
+                showNoDataDialogFragment();
             }
         };
         String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(mDate);
@@ -266,6 +266,18 @@ public class SummaryFragment extends Fragment {
         public int getItemCount() {
             return summaryItemList.size();
         }
+    }
+
+    private void showNoDataDialogFragment() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+//                        ft.addToBackStack(null);
+        // Create and show the dialog.
+        DialogFragment newFragment = new NoDataDetailsFragment();
+        newFragment.show(ft, "dialog");
     }
 
 

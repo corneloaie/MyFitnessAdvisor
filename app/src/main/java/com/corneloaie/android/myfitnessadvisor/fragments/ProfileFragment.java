@@ -2,7 +2,9 @@ package com.corneloaie.android.myfitnessadvisor.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -115,6 +117,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onError(VolleyError error) {
                 super.onError(error);
+                showNoDataDialogFragment();
             }
         };
         VolleyHelper.getInstance().get("1/user/" + token.getUserID() +
@@ -213,5 +216,16 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    private void showNoDataDialogFragment() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+//                        ft.addToBackStack(null);
+        // Create and show the dialog.
+        DialogFragment newFragment = new NoDataDetailsFragment();
+        newFragment.show(ft, "dialog");
+    }
 
 }

@@ -1,11 +1,16 @@
 package com.corneloaie.android.myfitnessadvisor;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
@@ -17,11 +22,12 @@ import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class LoginActivity extends AppCompatActivity {
     public static final String URL = "https://www.fitbit.com/oauth2/" +
             "authorize?response_type=token&client_id=228MYG&redirect_uri=" +
             "myapp%3A%2F%2Fscreen&" +
-            "scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800";
+            "scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=86400";
     OAuthTokenAndId token;
 
 
@@ -93,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.putLong("CurrentTimeMilis", System.currentTimeMillis());
             editor.putString("TokenType", token.getTokenType());
             editor.apply();
+            launchNotificationDemo();
             PollService.setServiceAlarm(getApplicationContext(), true);
             VolleyHelper.getInstance().setToken(token.getAccessToken());
             Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
@@ -103,6 +110,21 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void launchNotificationDemo() {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        Notification notification = new NotificationCompat.Builder(this, "id")
+                .setSmallIcon(R.drawable.ic_stat_logolauncer)
+                .setLargeIcon(bitmap)
+                .setContentTitle("Test")
+                .setContentText("This is just a demo")
+                .setAutoCancel(true)
+                .build();
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+        notificationManager.notify(1, notification);
     }
 
 

@@ -207,6 +207,8 @@ public class HeartRateFragment extends Fragment {
             @Override
             public void onError(VolleyError error) {
                 super.onError(error);
+                showNoDataDialogFragment();
+                hrValue_textView.setText("X");
             }
         };
         String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(mDate);
@@ -215,7 +217,7 @@ public class HeartRateFragment extends Fragment {
                 callback, getActivity());
     }
 
-
+    // creating a vector containg all the points for the graph with formatted date to display only the hours
     private DataPoint[] getHeartRatePoints(List<HeartRateIntraday> heartRateIntradays) {
         DataPoint[] dataPoints = new DataPoint[heartRateIntradays.size()];
         for (int i = 0; i < heartRateIntradays.size(); i++) {
@@ -235,6 +237,7 @@ public class HeartRateFragment extends Fragment {
         return dataPoints;
     }
 
+    // JSON parsing of data
     private List<HeartRateIntraday> parseHeartRateIntraday(JSONObject activitesHeartIntradayJSON, List<HeartRateIntraday> heartRateIntradays) throws JSONException {
         JSONArray jsonArray = activitesHeartIntradayJSON.getJSONArray("dataset");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -249,6 +252,7 @@ public class HeartRateFragment extends Fragment {
         return heartRateIntradays;
     }
 
+    // JSON parsing of data
     private List<HeartRateZone> parseHeartRateZone(JSONObject activitiesHeartJSON, List<HeartRateZone> heartRateZones) {
         try {
             JSONArray heartRateZonesJSONArray = activitiesHeartJSON.getJSONObject("value").getJSONArray("heartRateZones");
@@ -302,6 +306,7 @@ public class HeartRateFragment extends Fragment {
         right.setDrawLabels(false);
         right.setDrawGridLines(false);
         right.setEnabled(true);
+        chart.setDoubleTapToZoomEnabled(false);
 
 
         // custom X-axis labels
@@ -376,6 +381,18 @@ public class HeartRateFragment extends Fragment {
             valueSet1.add(barEntry);
         }
         return valueSet1;
+    }
+
+    private void showNoDataDialogFragment() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+//                        ft.addToBackStack(null);
+        // Create and show the dialog.
+        DialogFragment newFragment = new NoDataDetailsFragment();
+        newFragment.show(ft, "dialog");
     }
 
     @Override

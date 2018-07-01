@@ -17,15 +17,24 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.android.volley.VolleyError;
 import com.corneloaie.android.myfitnessadvisor.LoginActivity;
 import com.corneloaie.android.myfitnessadvisor.R;
+import com.corneloaie.android.myfitnessadvisor.voley.VolleyCallback;
+import com.corneloaie.android.myfitnessadvisor.voley.VolleyHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class PollService extends IntentService {
     public static final String TAG = "PollService";
     private static final long POLL_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1);
     long timeRemaining;
+    OAuthTokenAndId tokenAndId;
 
     public PollService() {
         super(TAG);
@@ -81,7 +90,51 @@ public class PollService extends IntentService {
                     NotificationManagerCompat.from(this);
             notificationManager.notify(0, notification);
         }
-        //TODO add notif in 2 hours if not enough steps or smth
+        getActivitySummary();
+    }
+
+    public void getActivitySummary() {
+        VolleyCallback callback = new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject object) {
+                try {
+                    JSONObject summaryObj = object.getJSONObject("summary");
+                    int steps = summaryObj.getInt("steps");
+
+                    Intent i = LoginActivity.newIntent(getApplicationContext());
+                    PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, i, 0);
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                    if (steps < 10000) {
+                        Notification notification = new NotificationCompat.Builder(getApplicationContext(), "id")
+                                .setSmallIcon(R.drawable.ic_stat_logolauncer)
+                                .setLargeIcon(bitmap)
+                                .setContentTitle("Steps")
+                                .setContentText("Still under 10000, with only " + steps + ", try to move a bit.")
+                                .setContentIntent(pi)
+                                .setAutoCancel(true)
+                                .build();
+
+                        NotificationManagerCompat notificationManager =
+                                NotificationManagerCompat.from(getApplicationContext());
+                        notificationManager.notify(2, notification);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                super.onError(error);
+            }
+        };
+        SharedPreferences sp = getSharedPreferences("Token", MODE_PRIVATE);
+        String userId = sp.getString("UserID", null);
+        String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
+        VolleyHelper.getInstance().get("1/user/" + userId +
+                        "/activities/date/" + stringDate + ".json",
+                callback, getApplicationContext());
     }
 
     private boolean isNetworkAvailableAndConnected() {
