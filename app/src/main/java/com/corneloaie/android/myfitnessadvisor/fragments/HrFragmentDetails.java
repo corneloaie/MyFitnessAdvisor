@@ -51,11 +51,11 @@ public class HrFragmentDetails extends DialogFragment {
                 textView2.setText(getString(R.string.fatBurnDetails));
                 break;
             case "cardio":
-                textView.setText("Fat burn");
+                textView.setText("Cardio");
                 textView2.setText(getString(R.string.cardioDetails));
                 break;
             case "peak":
-                textView.setText("Fat burn");
+                textView.setText("Peak");
                 textView2.setText(getString(R.string.peakDetails));
                 break;
         }
